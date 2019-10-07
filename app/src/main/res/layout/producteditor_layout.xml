@@ -18,9 +18,9 @@
                 android:id="@+id/productEditor_productName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Product Name"
-                android:textColor="#ffff"/>
+                android:layout_weight=".2"                android:text="@string/producteditor_product"
+                android:textColor="#ffff"
+                android:layout_gravity="center|end"/>
 
             <EditText
                 android:id="@+id/productEditor_productName_editable"
@@ -30,7 +30,9 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:hint="Store Name"
-                android:textColorHint="#7C7C7C"/>
+                android:autofillHints="Store Name"
+                android:textColorHint="#7C7C7C"
+                android:textColor="#FFFFFF"/>
         </TableRow>
 
         <TableRow
@@ -41,9 +43,10 @@
                 android:id="@+id/productEditor_storeName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".2"
+                android:text="@string/producteditor_shop"
                 android:textColor="#ffff"
-                android:text="Store Name" />
+                android:layout_gravity="center|end"/>
 
             <EditText
                 android:id="@+id/productEditor_storeName_editable"
@@ -52,8 +55,10 @@
                 android:layout_weight=".5"
                 android:ems="10"
                 android:inputType="textPersonName"
+                android:autofillHints="Name"
                 android:hint="Name"
-                android:textColorHint="#7C7C7C"/>
+                android:textColorHint="#7C7C7C"
+                android:textColor="#FFFFFF"/>
         </TableRow>
 
         <TableRow
@@ -64,9 +69,9 @@
                 android:id="@+id/productEditor_productPrice"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight=".2"                android:text="@string/producteditor_price"
                 android:textColor="#ffff"
-                android:text="Price" />
+                android:layout_gravity="center|end"/>
 
             <EditText
                 android:id="@+id/productEditor_productPrice_editable"
@@ -75,8 +80,10 @@
                 android:layout_weight=".5"
                 android:ems="10"
                 android:inputType="textPersonName"
+                android:autofillHints="$$$"
                 android:hint="$$$"
-                android:textColorHint="#7C7C7C"/>
+                android:textColorHint="#7C7C7C"
+                android:textColor="#FFFFFF"/>
         </TableRow>
 
         <TableRow
@@ -87,9 +94,9 @@
                 android:id="@+id/productEditor_dealDescription"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Deal"
-                android:textColor="#ffff" />
+                android:layout_weight=".2"                android:text="@string/producteditor_deal"
+                android:textColor="#ffff"
+                android:layout_gravity="center|end"/>
 
             <EditText
                 android:id="@+id/productEditor_dealDescription_editable"
@@ -97,15 +104,12 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:ems="10"
+                android:autofillHints="Description"
                 android:hint="Description"
                 android:inputType="textPersonName"
-                android:textColorHint="#7C7C7C" />
+                android:textColorHint="#7C7C7C"
+                android:textColor="#FFFFFF"/>
         </TableRow>
-
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
     </TableLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
