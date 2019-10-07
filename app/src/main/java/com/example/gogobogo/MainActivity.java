@@ -1,29 +1,32 @@
 package com.example.gogobogo;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import android.view.Menu;
 import android.view.View;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
-import androidx.drawerlayout.widget.DrawerLayout;
+public class MainActivity extends AppCompatActivity
+{
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-
-public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+
+    // TEST VARS
+
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +54,18 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+        // TEST CODE
+
+    }
+
+    // Opens the editor for the given product
+    public void openProductEditor(Object product)
+    {
+        // TODO: Add shopping list 'edit product' functionality
+        ProductEditor pEditor = new ProductEditor(product);
+
+        pEditor.show(getSupportFragmentManager(), "test");
     }
 
     @Override
