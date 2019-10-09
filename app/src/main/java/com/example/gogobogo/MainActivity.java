@@ -3,6 +3,7 @@ package com.example.gogobogo;
 import android.app.Activity;
 import android.os.Bundle;
 import android.util.Log;
+
 import android.view.Menu;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -21,10 +22,12 @@ import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity
 {
+
     public static Activity activity;
     private GogoBogo gogoBogo;
 
     private AppBarConfiguration mAppBarConfiguration;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +36,6 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
 
         // Static reference to application context
         MainActivity.activity = this;
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity
     public void openProductEditor()
     {
         // TODO: Add shopping list 'edit product' functionality
-        // ProductEditor pEditor = new ProductEditor(this, view);
 
         ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, 0));
         pEditor.show(getSupportFragmentManager(), "test");

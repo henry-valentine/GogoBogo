@@ -30,6 +30,7 @@
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:hint="Product Name"
+
                 android:autofillHints="Store Name"
                 android:textColorHint="#7C7C7C"
                 android:textColor="#FFFFFF"/>

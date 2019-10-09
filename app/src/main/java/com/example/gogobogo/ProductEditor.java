@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
@@ -23,8 +22,7 @@ public class ProductEditor extends AppCompatDialogFragment
     private Product     product;
     private GogoBogo    gogoBogo;
 
-    public ProductEditor(GogoBogo gogoBogo, Product product)
-    {
+    public ProductEditor(GogoBogo gogoBogo, Product product) {
         this.gogoBogo = gogoBogo;
         this.product = product;
     }
@@ -34,7 +32,8 @@ public class ProductEditor extends AppCompatDialogFragment
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
-        view = inflater.inflate(R.layout.producteditor_layout, null);
+
+        View view = inflater.inflate(R.layout.producteditor_layout, null);
 
         // This builds the window with 'Ok' and 'Cancel' buttons.
         builder.setView(view)
@@ -50,18 +49,18 @@ public class ProductEditor extends AppCompatDialogFragment
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Ok Button Logic
-                        String name = productName.getText().toString();
+
+                        String name  = productName.getText().toString();
                         String store = storeName.getText().toString();
                         String price = productPrice.getText().toString();
-                        String deal = dealDesc.getText().toString();
+                        String deal  = dealDesc.getText().toString();
 
                         // TODO: SET product OBJECT ATTRIBUTES FOR OK CONDITION
 
                         // Add a new Product
-                        //GogoBogo.addProduct(new Product(name, store, deal, Float.parseFloat(price)));
-
                         product.setAll(name, store, Float.parseFloat(price), deal);
                         gogoBogo.addProduct(product);
+
                     }
                 });
 
