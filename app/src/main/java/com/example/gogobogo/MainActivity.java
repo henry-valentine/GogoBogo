@@ -1,42 +1,29 @@
 package com.example.gogobogo;
 
-import android.graphics.Color;
+import android.app.Activity;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import android.util.Log;
+import android.view.Menu;
 import android.view.View;
+import android.widget.LinearLayout;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
+import com.google.android.material.snackbar.Snackbar;
 
-import androidx.drawerlayout.widget.DrawerLayout;
+public class MainActivity extends AppCompatActivity
+{
+    public static Activity activity;
+    private GogoBogo gogoBogo;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-
-
-// ADDED IMPORT
-import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-import android.app.ActionBar.LayoutParams;
-import android.util.Log;
-import android.view.View.OnClickListener;
-
-
-
-public class MainActivity extends AppCompatActivity {
-
-    private GogoBogo gogoBogo;                               // Our Stuff
     private AppBarConfiguration mAppBarConfiguration;
 
     @Override
@@ -49,6 +36,10 @@ public class MainActivity extends AppCompatActivity {
 
 
 
+        // Static reference to application context
+        MainActivity.activity = this;
+        gogoBogo = new GogoBogo();
+
 
         // FAB ACTION //
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -59,12 +50,10 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
 
                 // Add a New Deal Here
-                addDeal(view);
-
+                //addDeal(view);
+                openProductEditor();
             }
         });
-
-
 
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -79,10 +68,16 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
 
+    // Opens the editor for the given product
+    public void openProductEditor()
+    {
+        // TODO: Add shopping list 'edit product' functionality
+        // ProductEditor pEditor = new ProductEditor(this, view);
 
-        // Our Code //
-        gogoBogo = new GogoBogo();
+        ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, 0));
+        pEditor.show(getSupportFragmentManager(), "test");
 
     }
 
@@ -94,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp()
+    {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
@@ -164,9 +160,5 @@ public class MainActivity extends AppCompatActivity {
 
         // For Now, just generate a new deal and add it to the home page
 
-
-
     }
-
-
 }

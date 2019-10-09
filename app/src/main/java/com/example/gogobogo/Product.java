@@ -217,4 +217,13 @@ public class Product
     {
         this.m_price = price;
     }
+
+
+    public void setAll(String name, String store, Float price, String deal)
+    {
+        this.setName(name);
+        this.setStore(store);
+        this.setPrice(price);
+        this.setDeal(deal);
+    }
 } // end class
