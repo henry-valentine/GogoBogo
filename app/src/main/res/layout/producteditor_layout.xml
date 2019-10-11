@@ -31,7 +31,7 @@
                 android:inputType="textPersonName"
                 android:hint="Product Name"
 
-                android:autofillHints="Store Name"
+                android:autofillHints="Product Name"
                 android:textColorHint="#7C7C7C"
                 android:textColor="#FFFFFF"/>
         </TableRow>
@@ -56,8 +56,8 @@
                 android:layout_weight=".5"
                 android:ems="10"
                 android:inputType="textPersonName"
-                android:autofillHints="Name"
-                android:hint="Name"
+                android:autofillHints="Store Name"
+                android:hint="Store Name"
                 android:textColorHint="#7C7C7C"
                 android:textColor="#FFFFFF"/>
         </TableRow>
@@ -105,8 +105,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight=".5"
                 android:ems="10"
-                android:autofillHints="Description"
-                android:hint="Description"
+                android:autofillHints="Deal Description"
+                android:hint="Deal Description"
                 android:inputType="textPersonName"
                 android:textColorHint="#7C7C7C"
                 android:textColor="#FFFFFF"/>

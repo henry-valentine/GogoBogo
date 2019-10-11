@@ -2,20 +2,17 @@
     <string name="app_name">GogoBogo</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
+    <string name="nav_header_title">GogoBogo</string>
+    <string name="nav_header_subtitle">Courtesy of the Scrum-Bags</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
 
     <string name="menu_home">Home</string>
-    <string name="menu_gallery">Gallery</string>
-    <string name="menu_slideshow">Slideshow</string>
-    <string name="menu_tools">Tools</string>
-    <string name="menu_share">Share</string>
-    <string name="menu_send">Send</string>
+    <string name="menu_shopping_list">Shopping List</string>
+    <string name="menu_maps">Maps</string>
 
-    <string name="producteditor_product">Product Name</string>
-    <string name="producteditor_shop">Shop Name</string>
+    <string name="producteditor_product">Product</string>
+    <string name="producteditor_shop">Store</string>
     <string name="producteditor_price">Price</string>
-    <string name="producteditor_deal">Deal Description</string>
+    <string name="producteditor_deal">Deal</string>
 </resources>
