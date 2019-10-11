@@ -2,12 +2,8 @@ package com.example.gogobogo;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.util.Log;
-
 import android.view.Menu;
 import android.view.View;
-import android.widget.LinearLayout;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
@@ -15,7 +11,6 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
-
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -51,7 +46,6 @@ public class MainActivity extends AppCompatActivity
                         .setAction("Action", null).show();
 
                 // Add a New Deal Here
-                //addDeal(view);
                 openProductEditor();
             }
         });
@@ -95,69 +89,11 @@ public class MainActivity extends AppCompatActivity
                 || super.onSupportNavigateUp();
     }
 
-    int i = 0; // TEMP
-
     /* Custom Event Handlers */
-
-    /**
-     *
-     * Called whenever the Add Deal Button is pressed
-     *
-     * @param view
-     */
-    public void addDeal(View view)
+    public void searchMenu(View view)
     {
-        Log.i("TAG", "YOU PRESSED THE BLUE BUTTON!");
+        // Handles the Click from the search menu
 
-        LinearLayout lm = findViewById(R.id.homeLayout);
-
-        Product tempProduct;
-
-        switch(i)
-        {
-            case 1:
-                tempProduct  = new Product("Hot Dogs", "Walmart",
-                                            "Buy One Get One", 500);
-                break;
-            case 2:
-                tempProduct  = new Product("Pineapple", "Publix",
-                        "Buy Two Get One", 420);
-                break;
-            case 3:
-                tempProduct  = new Product("Dignity", "Aldi",
-                        "Buy Three Get One", 99999);
-                break;
-            case 4:
-                tempProduct  = new Product("Friendship", "Walmart",
-                        "OUT OF STOCK", 0);
-                break;
-            case 5:
-                tempProduct  = new Product("Pickled Ice Cream", "Some Guy On the Street",
-                        "I'll Pay You to Eat It", 20);
-                break;
-            case 6:
-                tempProduct  = new Product("Fresh Memes", "Reddit",
-                        "New Look, Same Great Dankness", 69420);
-                break;
-            case 7:
-                tempProduct  = new Product("Education", "Embry-Riddle",
-                        "You Give Us All Your Money", 160000);
-                break;
-            case 8:
-                tempProduct  = new Product("Parking Spot", "Embry-Riddle",
-                        "Currently Unavailable", 9999999);
-                break;
-            default:
-                tempProduct  = new Product("Stuff", "Stuff-Mart",
-                        "No Deals Available", 999);
-        }
-
-        i++;
-
-        // Add Product to Home Screen.
-        tempProduct.addToLayout(this, lm);
-
-        // For Now, just generate a new deal and add it to the home page
-
+        // TODO: Display a dialog box with a checklist of searchable stores
     }
 }

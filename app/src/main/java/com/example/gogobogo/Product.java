@@ -74,7 +74,7 @@ public class Product
         // Create LinearLayout for product
         LinearLayout ll = new LinearLayout(context);
         ll.setOrientation(LinearLayout.HORIZONTAL);
-        ll.setBackgroundColor(Color.LTGRAY);
+        ll.setBackgroundColor(0xf2f2f2f2);
 
         // Add the Shopping Cart Button //
         ImageButton addToCartButton = new ImageButton(context);
@@ -134,6 +134,7 @@ public class Product
         // Add the Upvote Button //
         ImageButton upButton = new ImageButton(context);
         upButton.setImageResource(R.drawable.upvote);
+        upButton.setBackgroundColor(0x00000000);
         upButton.setPadding(20, 20, 20, 0);
         upButton.setLayoutParams(params);
 
