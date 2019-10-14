@@ -15,6 +15,32 @@
             android:layout_height="match_parent">
 
             <TextView
+                android:id="@+id/productEditor_productType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center|end"
+                android:layout_weight=".2"
+                android:text="@string/producteditor_type"
+                android:textColor="#ffff" />
+
+            <EditText
+                android:id="@+id/productEditor_productType_editable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight=".5"
+                android:autofillHints="Product Type"
+                android:ems="10"
+                android:hint="Product Type"
+                android:inputType="textPersonName"
+                android:textColor="#FFFFFF"
+                android:textColorHint="#7C7C7C" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
                 android:id="@+id/productEditor_productName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

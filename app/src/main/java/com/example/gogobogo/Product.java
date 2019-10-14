@@ -30,6 +30,7 @@ public class Product
     private static int nextProductId = 0;
 
     /* Instance Variables */
+    private String  m_type;
     private String  m_name;
     private String  m_store;
     private String  m_deal;
@@ -39,9 +40,10 @@ public class Product
     private float   m_price;
 
     /* Constructors */
-    public Product(String name, String store, String deal, float price)
+    public Product(String type, String name, String store, String deal, float price)
     {
         // Initialize Instance Variables
+        this.m_type         = type;
         this.m_name         = name;
         this.m_store        = store;
         this.m_deal         = deal;
@@ -98,7 +100,7 @@ public class Product
 
         // Create TextView
         TextView product = new TextView(context);
-        product.setText(m_name + "\n" + m_store + "\n" + m_deal);
+        product.setText(m_type + "\n" + m_name + "\n" + m_store + "\n" + m_deal);
         product.setWidth(450);
         ll.addView(product);
 
@@ -159,6 +161,16 @@ public class Product
     } // end addToLayout
 
     /* Getters and Setters */
+    public String getType()
+    {
+        return m_type;
+    }
+
+    public void setType(String type)
+    {
+        this.m_type = type;
+    }
+
     public String getName()
     {
         return m_name;
@@ -220,8 +232,9 @@ public class Product
     }
 
 
-    public void setAll(String name, String store, Float price, String deal)
+    public void setAll(String type, String name, String store, Float price, String deal)
     {
+        this.setType(type);
         this.setName(name);
         this.setStore(store);
         this.setPrice(price);

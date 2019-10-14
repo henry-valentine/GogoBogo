@@ -14,6 +14,7 @@ public class ProductEditor extends AppCompatDialogFragment
 {
     private View view;
 
+    private EditText productType;
     private EditText productName;
     private EditText storeName;
     private EditText productPrice;
@@ -50,6 +51,7 @@ public class ProductEditor extends AppCompatDialogFragment
                     public void onClick(DialogInterface dialog, int which) {
                         // Ok Button Logic
 
+                        String type  = productType.getText().toString();
                         String name  = productName.getText().toString();
                         String store = storeName.getText().toString();
                         String price = productPrice.getText().toString();
@@ -58,7 +60,7 @@ public class ProductEditor extends AppCompatDialogFragment
                         // TODO: SET product OBJECT ATTRIBUTES FOR OK CONDITION
 
                         // Add a new Product
-                        product.setAll(name, store, Float.parseFloat(price), deal);
+                        product.setAll(type, name, store, Float.parseFloat(price), deal);
                         gogoBogo.addProduct(product);
 
                     }
@@ -66,6 +68,7 @@ public class ProductEditor extends AppCompatDialogFragment
 
         // Logic //
 
+        productType = view.findViewById(R.id.productEditor_productType_editable);
         productName = view.findViewById(R.id.productEditor_productName_editable);
         storeName = view.findViewById(R.id.productEditor_storeName_editable);
         productPrice = view.findViewById(R.id.productEditor_productPrice_editable);

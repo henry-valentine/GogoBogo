@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity
     {
         // TODO: Add shopping list 'edit product' functionality
 
-        ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, 0));
+        ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, null, 0));
         pEditor.show(getSupportFragmentManager(), "test");
 
     }

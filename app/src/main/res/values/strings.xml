@@ -11,6 +11,7 @@
     <string name="menu_shopping_list">Shopping List</string>
     <string name="menu_maps">Maps</string>
 
+    <string name="producteditor_type">Product Type</string>
     <string name="producteditor_product">Product</string>
     <string name="producteditor_shop">Store</string>
     <string name="producteditor_price">Price</string>
