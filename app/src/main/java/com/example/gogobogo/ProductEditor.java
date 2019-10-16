@@ -3,22 +3,22 @@ package com.example.gogobogo;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class ProductEditor extends AppCompatDialogFragment
 {
+
     private View view;
 
-    private EditText productType;
-    private EditText productName;
-    private EditText storeName;
-    private EditText productPrice;
-    private EditText dealDesc;
+    DatabaseHelper gbDB;
+    private EditText productType, productName, storeName, productPrice, dealDesc;
 
     private Product     product;
     private GogoBogo    gogoBogo;
@@ -30,6 +30,8 @@ public class ProductEditor extends AppCompatDialogFragment
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+        this.gbDB = new DatabaseHelper(getContext());
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
 
         LayoutInflater inflater = getActivity().getLayoutInflater();
@@ -50,12 +52,27 @@ public class ProductEditor extends AppCompatDialogFragment
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Ok Button Logic
+                        try {
+                            gbDB.insertData(productType.getText().toString(),
+                                    productName.getText().toString(), storeName.getText().toString(),
+                                    productPrice.getText().toString(), dealDesc.getText().toString());
+                        }
+                        catch (Exception e){
+                            System.out.println("Exception occurred in Database: /n" + e);
+                        }
 
                         String type  = productType.getText().toString();
                         String name  = productName.getText().toString();
                         String store = storeName.getText().toString();
                         String price = productPrice.getText().toString();
                         String deal  = dealDesc.getText().toString();
+
+                        Cursor res = gbDB.getAllData();
+                        if(res.getCount() == 0) {
+                            // show message
+                            System.out.println("Error Nothing found");
+                            return;
+                        }
 
                         // TODO: SET product OBJECT ATTRIBUTES FOR OK CONDITION
 
