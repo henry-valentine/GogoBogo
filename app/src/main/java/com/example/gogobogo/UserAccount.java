@@ -32,9 +32,10 @@ public class UserAccount
     private ShoppingList    shoppingList;
 
     /* Constructors */
-    public UserAccount (String userName, String password)
+    public UserAccount (String userName, String email, String password)
     {
         this.m_userName = userName;
+        this.m_emailAddress = email;
         this.m_password = password;
 
         this.shoppingList = new ShoppingList();

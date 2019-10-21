@@ -16,4 +16,7 @@
     <string name="producteditor_shop">Store</string>
     <string name="producteditor_price">Price</string>
     <string name="producteditor_deal">Deal</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
