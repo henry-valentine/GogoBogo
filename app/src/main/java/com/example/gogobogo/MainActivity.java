@@ -50,7 +50,6 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each
@@ -93,7 +92,7 @@ public class MainActivity extends AppCompatActivity
     public void searchMenu(View view)
     {
         // Handles the Click from the search menu
-
-        // TODO: Display a dialog box with a checklist of searchable stores
+        SearchOptions searchOptions = new SearchOptions(this.gogoBogo);
+        searchOptions.show(getSupportFragmentManager(), "test");
     }
 }
