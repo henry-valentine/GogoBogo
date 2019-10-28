@@ -1,11 +1,17 @@
 package com.example.gogobogo;
 
+import android.Manifest;
 import android.app.Activity;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -24,6 +30,7 @@ public class MainActivity extends AppCompatActivity
     private AppBarConfiguration mAppBarConfiguration;
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Generated Code //
@@ -36,6 +43,15 @@ public class MainActivity extends AppCompatActivity
         MainActivity.activity = this;
         gogoBogo = new GogoBogo();
 
+        //give premissions //
+        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
+            System.out.println("Permission Granted");
+            boolean v = true;
+        } else {
+            System.out.println("Permission Denied");
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
+            boolean v = false;
+        }
 
         // FAB ACTION //
         FloatingActionButton fab = findViewById(R.id.fab);

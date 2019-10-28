@@ -20,8 +20,11 @@ package com.example.gogobogo;
 
 public class UserAccount
 {
+    /* Static Variables */
+    private static int nextUserId = 0;
 
     /* Instance Variables */
+    private int             m_userId;
     private String          m_userName;
     private String          m_password;
     private String          m_emailAddress;
@@ -35,6 +38,10 @@ public class UserAccount
         this.m_password = password;
 
         this.shoppingList = new ShoppingList();
+
+        // Set User ID
+        this.m_userId = nextUserId;
+        nextUserId++;
 
         // getUser() - Get user from database with the above credentials
         // If the database has a matching user, return all the info and populate this object
