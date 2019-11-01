@@ -23,28 +23,33 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
-public class Product
+public class Product implements Comparable<Product>
 {
     /* Static Variables */
     private static int nextProductId = 0;
 
     /* Instance Variables */
-    private String  m_name;
-    private String  m_store;
-    private String  m_deal;
-    private int     m_productId;
-    private int     m_upvotes;
-    private int     m_downvotes;
-    private float   m_price;
+    private LinearLayout m_productLayout;
+    private String       m_name;
+    private String       m_store;
+    private String       m_deal;
+    private int          m_productId;
+    private int          m_upvotes;
+    private int          m_downvotes;
+    private float        m_price;
+
+    private GogoBogo gogoBogo;
 
     /* Constructors */
-    public Product(String name, String store, String deal, float price)
+    public Product(String name, String store, String deal, float price, GogoBogo gogoBogo)
     {
         // Initialize Instance Variables
         this.m_name         = name;
         this.m_store        = store;
         this.m_deal         = deal;
         this.m_price        = price;
+
+        this.gogoBogo = gogoBogo;
 
         this.m_upvotes      = 0;
         this.m_downvotes    = 0;
@@ -70,9 +75,9 @@ public class Product
                 (ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
 
         // Create LinearLayout for product
-        LinearLayout ll = new LinearLayout(context);
-        ll.setOrientation(LinearLayout.HORIZONTAL);
-        ll.setBackgroundColor(0xf2f2f2f2);
+        this.m_productLayout = new LinearLayout(context);
+        m_productLayout.setOrientation(LinearLayout.HORIZONTAL);
+        m_productLayout.setBackgroundColor(0xf2f2f2f2);
 
         // Add the Shopping Cart Button //
         ImageButton addToCartButton = new ImageButton(context);
@@ -88,23 +93,27 @@ public class Product
                 Log.i("TAG", "Adding" + m_name + "to Cart");
                 Snackbar.make(v, "Adding " + m_name +  " to Shopping List", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                // Add Product to Shopping List
+                addToShoppingList();
+
             }
         });
 
         //Add button to LinearLayout
-        ll.addView(addToCartButton);
+        m_productLayout.addView(addToCartButton);
 
         // Create TextView
         TextView product = new TextView(context);
         product.setText(m_name + "\n" + m_store + "\n" + m_deal);
         product.setWidth(450);
-        ll.addView(product);
+        m_productLayout.addView(product);
 
         // Create TextView
         TextView price = new TextView(context);
         price.setText("\n$" + m_price);
         price.setWidth(200);
-        ll.addView(price);
+        m_productLayout.addView(price);
 
         // Add the Downvote Button //
         ImageButton downButton = new ImageButton(context);
@@ -112,7 +121,6 @@ public class Product
         downButton.setBackgroundColor(0x00000000);
         downButton.setPadding(20, 20, 20, 0);
         downButton.setLayoutParams(params);
-
 
         // Set click listener for button
         downButton.setOnClickListener(new View.OnClickListener() {
@@ -127,7 +135,7 @@ public class Product
         });
 
         //Add button to LinearLayout
-        ll.addView(downButton);
+        m_productLayout.addView(downButton);
 
         // Add the Upvote Button //
         ImageButton upButton = new ImageButton(context);
@@ -149,12 +157,23 @@ public class Product
         });
 
         //Add button to LinearLayout
-        ll.addView(upButton);
+        m_productLayout.addView(upButton);
 
-        // Add Product to the Linear Layout
-        lm.addView(ll);
+        // Add Product to the Home Linear Layout
+        lm.addView(m_productLayout);
 
     } // end addToLayout
+
+    @Override
+    public int compareTo(Product product) {
+        // Descending in order of Deal Rating
+        return product.getDealRating() - this.getDealRating();
+    }
+
+    private void addToShoppingList()
+    {
+        this.gogoBogo.addToShoppingList(this);
+    }
 
     /* Getters and Setters */
     public String getName()
@@ -224,5 +243,10 @@ public class Product
         this.setStore(store);
         this.setPrice(price);
         this.setDeal(deal);
+    }
+
+    public int getDealRating()
+    {
+        return m_upvotes - m_downvotes;
     }
 } // end class

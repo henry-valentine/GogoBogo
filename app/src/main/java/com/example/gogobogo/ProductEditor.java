@@ -53,8 +53,6 @@ public class ProductEditor extends AppCompatDialogFragment
                         String price = productPrice.getText().toString();
                         String deal  = dealDesc.getText().toString();
 
-                        // TODO: SET product OBJECT ATTRIBUTES FOR OK CONDITION
-
                         // Add a new Product
                         product.setAll(name, store, Float.parseFloat(price), deal);
                         gogoBogo.addProduct(product);

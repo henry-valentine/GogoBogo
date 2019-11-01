@@ -1,6 +1,5 @@
 package com.example.gogobogo;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
@@ -18,11 +17,10 @@ import com.google.android.material.snackbar.Snackbar;
 public class MainActivity extends AppCompatActivity
 {
 
-    public static Activity activity;
+    public static MainActivity activity;
     private GogoBogo gogoBogo;
 
     private AppBarConfiguration mAppBarConfiguration;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,9 +64,7 @@ public class MainActivity extends AppCompatActivity
     // Opens the editor for the given product
     public void openProductEditor()
     {
-        // TODO: Add shopping list 'edit product' functionality
-
-        ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, 0));
+        ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, 0, gogoBogo));
         pEditor.show(getSupportFragmentManager(), "test");
 
     }
@@ -81,12 +77,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public boolean onSupportNavigateUp()
-    {
+    public boolean onSupportNavigateUp() {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
     }
+
 
     /* Custom Event Handlers */
     public void searchMenu(View view)
@@ -94,5 +90,10 @@ public class MainActivity extends AppCompatActivity
         // Handles the Click from the search menu
         SearchOptions searchOptions = new SearchOptions(this.gogoBogo);
         searchOptions.show(getSupportFragmentManager(), "test");
+    }
+
+    public GogoBogo getGogoBogoInstance()
+    {
+        return this.gogoBogo;
     }
 }

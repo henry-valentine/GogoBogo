@@ -20,7 +20,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center|left"
                 android:layout_weight=".2"
-                android:text="Walmart (Beville Rd)"
+                android:text="My Location (5 mi Radius)"
                 android:textColor="#ffff" />
 
             <CheckBox
