@@ -37,7 +37,6 @@ public class HomeFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
         // Add all the GogoBogo Products to the homeLayout
-        LinearLayout lm;
         ArrayList<Product> products = MainActivity.activity.getGogoBogoInstance().getProducts();
 
         // Sort the ArrayList by Deal Rating
@@ -45,8 +44,7 @@ public class HomeFragment extends Fragment
 
         for (Product product : products)
         {
-            lm = MainActivity.activity.findViewById(R.id.homeLayout);
-            product.addToLayout(MainActivity.activity, lm);
+            product.addToLayout(R.id.homeLayout);
         }
     }
 

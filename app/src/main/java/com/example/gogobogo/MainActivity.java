@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity
     // Opens the editor for the given product
     public void openProductEditor()
     {
-        ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, 0, gogoBogo));
+        ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, 0));
         pEditor.show(getSupportFragmentManager(), "test");
 
     }

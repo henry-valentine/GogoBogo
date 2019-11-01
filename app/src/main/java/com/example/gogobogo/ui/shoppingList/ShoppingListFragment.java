@@ -26,7 +26,8 @@ public class ShoppingListFragment extends Fragment {
     private ShoppingListViewModel shoppingListViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+                             ViewGroup container, Bundle savedInstanceState)
+    {
         shoppingListViewModel =
                 ViewModelProviders.of(this).get(ShoppingListViewModel.class);
         View root = inflater.inflate(R.layout.fragment_shopping_list, container, false);
@@ -45,7 +46,6 @@ public class ShoppingListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
         // Add all the GogoBogo Products to the homeLayout
-        LinearLayout lm;
         ShoppingList shoppingList = MainActivity.activity.getGogoBogoInstance().getShoppingList();
         ArrayList<Product> products = shoppingList.getProducts();
 
@@ -54,8 +54,7 @@ public class ShoppingListFragment extends Fragment {
 
         for (Product product : products)
         {
-            lm = MainActivity.activity.findViewById(R.id.shoppingListLayout);
-            product.addToLayout(MainActivity.activity, lm);
+            product.addToLayout(R.id.shoppingListLayout);
         }
     }
 

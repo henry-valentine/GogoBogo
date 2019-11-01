@@ -36,8 +36,17 @@ public class GogoBogo
         this.products.add(product);
 
         // Add product to the home screen
-        LinearLayout lm = MainActivity.activity.findViewById(R.id.homeLayout);
-        product.addToLayout(MainActivity.activity, lm);
+        product.addToLayout(R.id.homeLayout);
+    }
+
+    public void removeProduct(Product product)
+    {
+        this.products.remove(product);
+    }
+
+    public ArrayList<Product> getProducts()
+    {
+        return this.products;
     }
 
     public void addToShoppingList(Product product)
@@ -49,11 +58,6 @@ public class GogoBogo
     public ShoppingList getShoppingList()
     {
         return this.shoppingList;
-    }
-
-    public ArrayList<Product> getProducts()
-    {
-        return this.products;
     }
 }
 

@@ -30,6 +30,7 @@ public class Product implements Comparable<Product>
 
     /* Instance Variables */
     private LinearLayout m_productLayout;
+    private TextView     m_dealRating_tv;
     private String       m_name;
     private String       m_store;
     private String       m_deal;
@@ -38,18 +39,14 @@ public class Product implements Comparable<Product>
     private int          m_downvotes;
     private float        m_price;
 
-    private GogoBogo gogoBogo;
-
     /* Constructors */
-    public Product(String name, String store, String deal, float price, GogoBogo gogoBogo)
+    public Product(String name, String store, String deal, float price)
     {
         // Initialize Instance Variables
         this.m_name         = name;
         this.m_store        = store;
         this.m_deal         = deal;
         this.m_price        = price;
-
-        this.gogoBogo = gogoBogo;
 
         this.m_upvotes      = 0;
         this.m_downvotes    = 0;
@@ -65,11 +62,16 @@ public class Product implements Comparable<Product>
      *  with an upvote, downvote, and add to cart button
      *  in the specified linear layout.
      *
-     * @param context   : The current context for this app
-     * @param lm        : Linear layout to add product to
+     * @param layout_id        : ID of the Linear layout to add product to
      */
-    public void addToLayout(Context context, LinearLayout lm)
+    public void addToLayout(final int layout_id)
     {
+        // Activity Context
+        Context context = MainActivity.activity;
+
+        // Layout to Add This Product To
+        LinearLayout lm = MainActivity.activity.findViewById(layout_id);
+
         // Set the Layout parameters
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
                 (ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
@@ -79,9 +81,20 @@ public class Product implements Comparable<Product>
         m_productLayout.setOrientation(LinearLayout.HORIZONTAL);
         m_productLayout.setBackgroundColor(0xf2f2f2f2);
 
-        // Add the Shopping Cart Button //
+        // Add the Shopping Cart Button (Add or Remove) //
         ImageButton addToCartButton = new ImageButton(context);
-        addToCartButton.setImageResource(R.drawable.add_to_cart);
+
+        // Determine if we need the 'Add' or 'Remove' Button
+        if (layout_id == R.id.shoppingListLayout)
+        {
+            addToCartButton.setImageResource(R.drawable.remove_from_cart);
+        }
+        else
+        {
+            addToCartButton.setImageResource(R.drawable.add_to_cart);
+        }
+
+
         addToCartButton.setBackgroundColor(0x00000000);
         addToCartButton.setPadding(20, 20, 30, 20);
         addToCartButton.setLayoutParams(params);
@@ -90,13 +103,23 @@ public class Product implements Comparable<Product>
         addToCartButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                Log.i("TAG", "Adding" + m_name + "to Cart");
-                Snackbar.make(v, "Adding " + m_name +  " to Shopping List", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                if(layout_id == R.id.homeLayout) {
+                    Log.i("TAG", "Adding" + m_name + "to Cart");
+                    Snackbar.make(v, "Adding " + m_name + " to Shopping List", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
 
-                // Add Product to Shopping List
-                addToShoppingList();
+                    // Add Product to Shopping List
+                    addToShoppingList();
+                }
+                else
+                {
+                    Log.i("TAG", "Removing" + m_name + "from Cart");
+                    Snackbar.make(v, "Removing " + m_name + " from Shopping List", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
 
+                    // Add Product to Shopping List
+                    removeFromShoppingList();
+                }
             }
         });
 
@@ -115,6 +138,10 @@ public class Product implements Comparable<Product>
         price.setWidth(200);
         m_productLayout.addView(price);
 
+        // Display Deal Rating
+        m_dealRating_tv = new TextView(context);
+        m_dealRating_tv.setText("\n" + getDealRating());
+
         // Add the Downvote Button //
         ImageButton downButton = new ImageButton(context);
         downButton.setImageResource(R.drawable.downvote);
@@ -128,14 +155,28 @@ public class Product implements Comparable<Product>
             {
                 m_downvotes++;
 
+                // Update the deal rating
+                m_dealRating_tv.setText("\n" + getDealRating());
+
                 Log.i("TAG", "DOWNVOTE RECEIVED");
                 Snackbar.make(v, ("Downvotes Received: " + m_downvotes), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                if(removeIfNeeded())
+                {
+                    Log.i("TAG", "Removed Product: " + m_name);
+                    Snackbar.make(v, ("Removing Product: " + m_name), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
 
         //Add button to LinearLayout
         m_productLayout.addView(downButton);
+
+        // Add Deal Rating Text View to Layout
+        m_productLayout.addView(m_dealRating_tv);
+
 
         // Add the Upvote Button //
         ImageButton upButton = new ImageButton(context);
@@ -149,6 +190,9 @@ public class Product implements Comparable<Product>
             public void onClick(View v)
             {
                 m_upvotes++;
+
+                // Update the deal rating
+                m_dealRating_tv.setText("\n" + getDealRating());
 
                 Log.i("TAG", "UPVOTE RECEIVED");
                 Snackbar.make(v, ("Upvotes Received: " + m_upvotes), Snackbar.LENGTH_LONG)
@@ -172,7 +216,13 @@ public class Product implements Comparable<Product>
 
     private void addToShoppingList()
     {
-        this.gogoBogo.addToShoppingList(this);
+        MainActivity.activity.getGogoBogoInstance().addToShoppingList(this);
+    }
+
+    private void removeFromShoppingList()
+    {
+        ShoppingList shoppingList = MainActivity.activity.getGogoBogoInstance().getShoppingList();
+        shoppingList.removeProduct(this);
     }
 
     /* Getters and Setters */
@@ -248,5 +298,28 @@ public class Product implements Comparable<Product>
     public int getDealRating()
     {
         return m_upvotes - m_downvotes;
+    }
+
+    /**
+     *
+     * @return True if it was removed. False if it wasn't
+     */
+    public boolean removeIfNeeded()
+    {
+        if (getDealRating() < -5)
+        {
+            // Remove From Shopping List if it's there
+            ShoppingList shoppingList = MainActivity.activity.getGogoBogoInstance().shoppingList;
+            shoppingList.removeProduct(this);
+
+            // Remove from Home Page
+            MainActivity.activity.getGogoBogoInstance().removeProduct(this);
+
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 } // end class
