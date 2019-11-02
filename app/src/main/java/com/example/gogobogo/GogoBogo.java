@@ -42,6 +42,13 @@ public class GogoBogo
         product.addToLayout(MainActivity.activity, lm);
     }
 
+    public UserAccount getUserAccount() {
+        return userAccount;
+    }
+
+    public void setUserAccount(UserAccount userAccount) {
+        this.userAccount = userAccount;
+    }
 }
 
 

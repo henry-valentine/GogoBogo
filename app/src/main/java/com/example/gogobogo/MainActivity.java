@@ -1,12 +1,15 @@
 package com.example.gogobogo;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -15,14 +18,29 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity
 {
+    private GenericEditor.OnInputListener productEditorListener = new GenericEditor.OnInputListener() {
+        @Override
+        public void sendInput(ArrayList<GenericEditor.GERow> dialogData)
+        {
+            // TODO : What is type - and does it need to be assigned by user?
+            gogoBogo.addProduct(new Product(
+                    "NONE?",
+                    dialogData.get(0).getEditable().getText().toString(),
+                    dialogData.get(1).getEditable().getText().toString(),
+                    dialogData.get(2).getEditable().getText().toString(),
+                    Float.parseFloat(dialogData.get(3).getEditable().getText().toString())
+            ));
+        }
+    };
 
     public static Activity activity;
-    private GogoBogo gogoBogo;
+    public static GogoBogo gogoBogo;
 
     private AppBarConfiguration mAppBarConfiguration;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +54,7 @@ public class MainActivity extends AppCompatActivity
         MainActivity.activity = this;
         gogoBogo = new GogoBogo();
 
+        transferToLoginActivity();
 
         // FAB ACTION //
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -64,14 +83,26 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupWithNavController(navigationView, navController);
     }
 
+    public void transferToLoginActivity()
+    {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+    }
+
     // Opens the editor for the given product
     public void openProductEditor()
     {
-        // TODO: Add shopping list 'edit product' functionality
+        ArrayList<GenericEditor.GERow> rows = new ArrayList<>();
+        rows.add(new GenericEditor.GERow("Product", "Product Name", this));
+        rows.add(new GenericEditor.GERow("Store", "Store Name", this));
+        rows.add(new GenericEditor.GERow("Deal", "Deal Description", this));
+        rows.add(new GenericEditor.GERow("Price", "$$$", this));
 
-        ProductEditor pEditor = new ProductEditor(this.gogoBogo, new Product(null, null, null, null, 0));
-        pEditor.show(getSupportFragmentManager(), "test");
 
+        GenericEditor pEditor = new GenericEditor("Product Editor", rows);
+        pEditor.setOnInputListener(productEditorListener);
+
+        pEditor.show(getSupportFragmentManager(), "ProductEditor");
     }
 
     @Override
