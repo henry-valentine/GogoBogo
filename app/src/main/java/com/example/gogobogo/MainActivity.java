@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    public static Activity activity;
+    public static MainActivity activity;
     private GogoBogo gogoBogo;
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -143,5 +143,13 @@ public class MainActivity extends AppCompatActivity
         // Handles the Click from the search menu
 
         // TODO: Display a dialog box with a checklist of searchable stores
+    }
+
+    public GogoBogo getGogoBogo() {
+        return gogoBogo;
+    }
+
+    public void setGogoBogo(GogoBogo gogoBogo) {
+        this.gogoBogo = gogoBogo;
     }
 }

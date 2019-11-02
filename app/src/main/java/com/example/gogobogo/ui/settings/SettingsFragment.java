@@ -27,7 +27,7 @@ public class SettingsFragment extends Fragment implements AccountSettingsFragmen
     private TextView mEmail;
 
     private Button open_accountSettings;
-    private UserAccount mAccount = MainActivity.gogoBogo.getUserAccount();
+    private UserAccount mAccount = MainActivity.activity.getGogoBogo().getUserAccount();
 
     private GenericEditor.OnInputListener accountUpdateListener = new GenericEditor.OnInputListener() {
         @Override

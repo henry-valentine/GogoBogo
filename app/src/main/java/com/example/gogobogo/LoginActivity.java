@@ -12,7 +12,7 @@ import com.example.gogobogo.ui.login.LoginFragment;
 
 public class LoginActivity extends FragmentActivity
 {
-    private static GogoBogo gogoBogo = MainActivity.gogoBogo;
+    private static GogoBogo gogoBogo = MainActivity.activity.getGogoBogo();
     private FragmentManager mFragmentManager = getSupportFragmentManager();
     private LoginFragment loginFragment;
 

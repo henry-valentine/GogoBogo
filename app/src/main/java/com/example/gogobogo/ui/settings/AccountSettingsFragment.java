@@ -30,7 +30,7 @@ public class AccountSettingsFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     private Button btnOpenEditor;
-    private UserAccount mAccount = MainActivity.gogoBogo.getUserAccount();
+    private UserAccount mAccount = MainActivity.activity.getGogoBogo().getUserAccount();
 
 
 
