@@ -8,7 +8,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import androidx.annotation.Nullable;
 
-public class DatabaseHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper 
+{
     public static final String DATABASE_NAME = "product.db ";
     public static final String TABLE_NAME = "product_table ";
     public static final String COL_1 = "ID";
@@ -18,24 +19,28 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public static final String COL_5 = "PRICE";
     public static final String COL_6 = "DEAL";
 
-    public DatabaseHelper(@Nullable Context context) {
+    public DatabaseHelper(@Nullable Context context) 
+    {
         super(context, DATABASE_NAME, null, 1);
         SQLiteDatabase db = this.getWritableDatabase();
     }
 
     @Override
-    public void onCreate(SQLiteDatabase db) {
+    public void onCreate(SQLiteDatabase db) 
+    {
         db.execSQL("create table " + TABLE_NAME + "(ID INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 "TYPE TEXT, NAME TEXT, STORE TEXT, PRICE TEXT, DEAL TEXT)");
     }
 
     @Override
-    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) 
+    {
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
         onCreate(db);
     }
 
-    public boolean insertData(String type, String name, String store, String price, String deal) {
+    public boolean insertData(String type, String name, String store, String price, String deal) 
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues contentValues = new ContentValues();
         contentValues.put(COL_2, type);
@@ -50,7 +55,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             return true;
     }
 
-    public Cursor getAllData() {
+    public Cursor getAllData() 
+    {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor res = db.rawQuery("select * from " + TABLE_NAME, null);
         return res;
