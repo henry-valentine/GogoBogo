@@ -8,17 +8,20 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatDialogFragment;
 
 public class ProductEditor extends AppCompatDialogFragment
 {
-
     private View view;
 
     DatabaseHelper gbDB;
-    private EditText productType, productName, storeName, productPrice, dealDesc;
+
+    private EditText productType;
+    private EditText productName;
+    private EditText storeName;
+    private EditText productPrice;
+    private EditText dealDesc;
 
     private Product     product;
     private GogoBogo    gogoBogo;
@@ -52,7 +55,8 @@ public class ProductEditor extends AppCompatDialogFragment
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Ok Button Logic
-                        try {
+                        try
+                        {
                             gbDB.insertData(productType.getText().toString(),
                                     productName.getText().toString(), storeName.getText().toString(),
                                     productPrice.getText().toString(), dealDesc.getText().toString());

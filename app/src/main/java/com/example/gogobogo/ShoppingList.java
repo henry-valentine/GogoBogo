@@ -24,7 +24,7 @@ public class ShoppingList
     /* Constructors */
     public ShoppingList()
     {
-        this.m_products = new ArrayList<Product>();
+        this.m_products = new ArrayList<>();
 
     }
 
@@ -49,5 +49,9 @@ public class ShoppingList
     }
 
 
+    public ArrayList<Product> getProducts()
+    {
+        return m_products;
+    }
 
 } // end class

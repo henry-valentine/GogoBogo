@@ -1,4 +1,4 @@
-package com.example.gogobogo.ui.slideshow;
+package com.example.gogobogo.ui.maps;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.gogobogo.R;
 
-public class SlideshowFragment extends Fragment {
+public class mapsFragment extends Fragment {
 
-    private SlideshowViewModel slideshowViewModel;
+    private mapsViewModel mapsViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        slideshowViewModel =
-                ViewModelProviders.of(this).get(SlideshowViewModel.class);
+        mapsViewModel =
+                ViewModelProviders.of(this).get(mapsViewModel.class);
         View root = inflater.inflate(R.layout.fragment_maps, container, false);
         final TextView textView = root.findViewById(R.id.text_slideshow);
-        slideshowViewModel.getText().observe(this, new Observer<String>() {
+        mapsViewModel.getText().observe(this, new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);

@@ -12,36 +12,51 @@
 * */
 
 package com.example.gogobogo;
-
-import android.widget.LinearLayout;
-
 import java.util.ArrayList;
 
 
 public class GogoBogo
 {
 
-    public ArrayList<Product> products;
+    public ArrayList<Product> products;     // Products on the home page
+    public ShoppingList shoppingList;       // Shopping List for the User
 
     /* Instance Variables */
     UserAccount userAccount;
 
-
-
     public GogoBogo()
     {
-        this.products = new ArrayList<Product>();
-
+        this.products = new ArrayList<>();
+        this.shoppingList = new ShoppingList();
     }
 
     public void addProduct(Product product) {
         this.products.add(product);
 
-        // Add product to the home scree
-        LinearLayout lm = MainActivity.activity.findViewById(R.id.homeLayout);
-        product.addToLayout(MainActivity.activity, lm);
+        // Add product to the home screen
+        product.addToLayout(R.id.homeLayout);
     }
 
+    public void removeProduct(Product product)
+    {
+        this.products.remove(product);
+    }
+
+    public ArrayList<Product> getProducts()
+    {
+        return this.products;
+    }
+
+    public void addToShoppingList(Product product)
+    {
+        shoppingList.addProduct(product);
+
+    }
+
+    public ShoppingList getShoppingList()
+    {
+        return this.shoppingList;
+    }
     public UserAccount getUserAccount() {
         return userAccount;
     }
