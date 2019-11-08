@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 
 import androidx.annotation.Nullable;
 import androidx.annotation.NonNull;
@@ -17,7 +16,6 @@ import com.example.gogobogo.Product;
 import com.example.gogobogo.R;
 import com.example.gogobogo.ShoppingList;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collections;
 

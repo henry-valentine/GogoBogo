@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "51726445492",
+    "firebase_url": "https://gogobogo-a12d8.firebaseio.com",
+    "project_id": "gogobogo-a12d8",
+    "storage_bucket": "gogobogo-a12d8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51726445492:android:bf4a5d120e2e5523c4a0e1",
+        "android_client_info": {
+          "package_name": "com.example.gogobogo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51726445492-s5pqjh3f3jlsg9su76cp1cnpc8k32jcm.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.gogobogo",
+            "certificate_hash": "157744325cae0ab07d1efc6252c657eaf2614522"
+          }
+        },
+        {
+          "client_id": "51726445492-ai7g5in7uehm7nqjepnuu4dp5d0ov0jt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlFxzSDnTXofK3OpXIpswxxqQVbDxd1eg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51726445492-ai7g5in7uehm7nqjepnuu4dp5d0ov0jt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
