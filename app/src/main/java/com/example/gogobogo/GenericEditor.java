@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -126,8 +127,8 @@ public class GenericEditor extends AppCompatDialogFragment
         void sendInput(ArrayList<GERow> dialogData);
     }
 
-
     // Getters and Setters
+
 
     public OnInputListener getOnInputListener()
     {

@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -42,14 +43,17 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void sendInput(ArrayList<GenericEditor.GERow> dialogData)
         {
-            // TODO : What is type - and does it need to be assigned by user?
-            gogoBogo.addProduct(new Product(
-                    "NONE?",
-                    dialogData.get(0).getEditable().getText().toString(),
-                    dialogData.get(1).getEditable().getText().toString(),
-                    dialogData.get(2).getEditable().getText().toString(),
-                    Float.parseFloat(dialogData.get(3).getEditable().getText().toString())
-            ));
+            if (!dialogData.get(0).getFieldString().isEmpty() && !dialogData.get(1).getFieldString().isEmpty() && dialogData.get(2).getFieldString().isEmpty() && dialogData.get(3).getFieldString().isEmpty())
+                gogoBogo.addProduct(new Product(
+                        "NONE?",
+                        dialogData.get(0).getEditable().getText().toString(),
+                        dialogData.get(1).getEditable().getText().toString(),
+                        dialogData.get(2).getEditable().getText().toString(),
+                        Float.parseFloat(dialogData.get(3).getEditable().getText().toString())
+                ));
+            else {
+                Log.e("PRODUCT ERROR", "Failed to init product due to empty input field...");
+            }
         }
     };
 
