@@ -25,7 +25,6 @@ public class ShoppingList
     public ShoppingList()
     {
         this.m_products = new ArrayList<>();
-
     }
 
     /* Methods */
@@ -45,6 +44,7 @@ public class ShoppingList
      */
     public void removeProduct(Product product)
     {
+        product.setVisible(false);
         this.m_products.remove(product);
     }
 

@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,29 @@ public class HomeFragment extends Fragment
         {
             product.addToLayout(R.id.homeLayout);
         }
+
+        // Set the Search View Query Listeners
+        SearchView searchView = MainActivity.activity.findViewById(R.id.searchBar);
+
+        // Logic to Handle Query Text
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+
+                // Call a gogoBogo method here?
+
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+
+                // Call a gogoBogo method here?
+
+                return false;
+            }
+        });
+
     }
 
 }

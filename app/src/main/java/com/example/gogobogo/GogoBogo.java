@@ -17,17 +17,49 @@ import java.util.ArrayList;
 
 public class GogoBogo
 {
-
-    public ArrayList<Product> products;     // Products on the home page
-    public ShoppingList shoppingList;       // Shopping List for the User
-
     /* Instance Variables */
+    private ArrayList<Product>  products;           // Products on the home page
+    private ShoppingList        shoppingList;       // Shopping List for the User
+    private ArrayList<String>   storeList;          // List of Stores
+
     UserAccount userAccount;
 
     public GogoBogo()
     {
         this.products = new ArrayList<>();
         this.shoppingList = new ShoppingList();
+
+        this.storeList = new ArrayList<>();
+
+        // TODO : Populate from Database instead of Hardcoding
+        ////////////////////////////////////////////////////////
+        storeList.add("Walmart");
+        storeList.add("Publix");
+        storeList.add("Aldi");
+        storeList.add("NM Walmart");
+        ////////////////////////////////////////////////////////
+    }
+
+    /**
+     * Filter the displayed products by a list of stores
+     * @param stores - List of stores to show products from
+     */
+    public void filterByStore(ArrayList<String> stores)
+    {
+        // Iterate through products
+        for (Product product : products)
+        {
+            // If Product's store is not on filter list, hide it.
+            if (!stores.contains(product.getStore()))
+            {
+                product.setVisible(false);
+            }
+            else
+            {
+                product.setVisible(true);
+            }
+        }
+
     }
 
     public void addProduct(Product product) {
@@ -39,6 +71,8 @@ public class GogoBogo
 
     public void removeProduct(Product product)
     {
+        // Remove product from the home page
+        product.setVisible(false);
         this.products.remove(product);
     }
 
@@ -51,6 +85,11 @@ public class GogoBogo
     {
         shoppingList.addProduct(product);
 
+    }
+
+    public ArrayList<String> getStoreList()
+    {
+        return storeList;
     }
 
     public ShoppingList getShoppingList()

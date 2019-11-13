@@ -23,11 +23,11 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Product implements Comparable<Product>
 {
-    /* Static Variables */
-    private static int nextProductId = 0;
-
     /* Instance Variables */
     private LinearLayout m_productLayout;
     private TextView     m_dealRating_tv;
@@ -35,12 +35,21 @@ public class Product implements Comparable<Product>
     private String       m_name;
     private String       m_store;
     private String       m_deal;
-    private int          m_productId;
+    private String       m_productId;
     private int          m_upvotes;
     private int          m_downvotes;
     private float        m_price;
 
     /* Constructors */
+
+    /**
+     *
+     * @param type
+     * @param name
+     * @param store
+     * @param deal
+     * @param price
+     */
     public Product(String type, String name, String store, String deal, float price)
     {
         // Initialize Instance Variables
@@ -49,13 +58,24 @@ public class Product implements Comparable<Product>
         this.m_store        = store;
         this.m_deal         = deal;
         this.m_price        = price;
-
         this.m_upvotes      = 0;
         this.m_downvotes    = 0;
 
-        // Set Product ID
-        this.m_productId = nextProductId;
-        nextProductId++;
+        // Generate Product Id
+        this.m_productId = generateProductId();
+    }
+
+    public Product(String type, String name, String store, String deal, float price, String productId)
+    {
+        // Initialize Instance Variables
+        this.m_type         = type;
+        this.m_name         = name;
+        this.m_store        = store;
+        this.m_deal         = deal;
+        this.m_price        = price;
+        this.m_productId    = productId;
+        this.m_upvotes      = 0;
+        this.m_downvotes    = 0;
     }
 
     /* Methods */
@@ -80,6 +100,7 @@ public class Product implements Comparable<Product>
 
         // Create LinearLayout for product
         this.m_productLayout = new LinearLayout(context);
+        this.setVisible(true);
         m_productLayout.setOrientation(LinearLayout.HORIZONTAL);
         m_productLayout.setBackgroundColor(0xf2f2f2f2);
 
@@ -130,7 +151,7 @@ public class Product implements Comparable<Product>
 
         // Create TextView
         TextView product = new TextView(context);
-        product.setText(m_type + "\n" + m_name + "\n" + m_store + "\n" + m_deal);
+        product.setText(m_name + "\n" + m_store + "\n" + m_deal);
         product.setWidth(450);
         m_productLayout.addView(product);
 
@@ -209,6 +230,21 @@ public class Product implements Comparable<Product>
         lm.addView(m_productLayout);
 
     } // end addToLayout
+
+    /**
+     * Set visibility of a product
+     */
+    public void setVisible(boolean visible)
+    {
+        if (visible)
+        {
+            this.m_productLayout.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            this.m_productLayout.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public int compareTo(Product product) {
@@ -298,6 +334,16 @@ public class Product implements Comparable<Product>
         this.m_price = price;
     }
 
+    public String getProductId()
+    {
+        return this.m_productId;
+    }
+
+    public void setProductId(String id)
+    {
+        this.m_productId = id;
+    }
+
 
     public void setAll(String type, String name, String store, Float price, String deal)
     {
@@ -306,6 +352,25 @@ public class Product implements Comparable<Product>
         this.setStore(store);
         this.setPrice(price);
         this.setDeal(deal);
+    }
+
+    /**
+     * Generates a unique product id
+     * @return
+     */
+    public String generateProductId()
+    {
+        // Get the current time
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
+
+        // Generate a random int between 0 and 100
+        int rand = (int) (Math.random() * 100);
+
+        String productId = date.format(new Date()) + "-" + rand;
+
+        Log.d("DEBUG", "Generated new product ID: " + productId);
+
+        return productId;
     }
 
     public int getDealRating()
@@ -322,7 +387,7 @@ public class Product implements Comparable<Product>
         if (getDealRating() < -5)
         {
             // Remove From Shopping List if it's there
-            ShoppingList shoppingList = MainActivity.activity.getGogoBogo().shoppingList;
+            ShoppingList shoppingList = MainActivity.activity.getGogoBogo().getShoppingList();
             shoppingList.removeProduct(this);
 
             // Remove from Home Page

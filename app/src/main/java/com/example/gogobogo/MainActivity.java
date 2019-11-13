@@ -43,7 +43,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void sendInput(ArrayList<GenericEditor.GERow> dialogData)
         {
-            if (!dialogData.get(0).getFieldString().isEmpty() && !dialogData.get(1).getFieldString().isEmpty() && dialogData.get(2).getFieldString().isEmpty() && dialogData.get(3).getFieldString().isEmpty())
+            if (!dialogData.get(0).getFieldString().isEmpty() && !dialogData.get(1).getFieldString().isEmpty() && !dialogData.get(2).getFieldString().isEmpty() && !dialogData.get(3).getFieldString().isEmpty()) {
                 gogoBogo.addProduct(new Product(
                         "NONE?",
                         dialogData.get(0).getEditable().getText().toString(),
@@ -51,6 +51,7 @@ public class MainActivity extends AppCompatActivity
                         dialogData.get(2).getEditable().getText().toString(),
                         Float.parseFloat(dialogData.get(3).getEditable().getText().toString())
                 ));
+            }
             else {
                 Log.e("PRODUCT ERROR", "Failed to init product due to empty input field...");
             }
@@ -118,52 +119,51 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-
         // TODO : ALL BELOW IS TEST CODE
-        // Initialize the Database
-        db = FirebaseFirestore.getInstance();
-
-
-        // TODO: Temp. Created a test document
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Rosemary");
-        user.put("last", "Morataya");
-        user.put("username", "saggy_boob");
-        user.put("password", "1234");
-        user.put("cart_number", 1237);
-
-        // Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("TAG", "Error adding document", e);
-                    }
-                });
-
-        // Read from database
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w("TAG", "Error getting documents.", task.getException());
-                        }
-                    }
-                });
+//        // Initialize the Database
+//        db = FirebaseFirestore.getInstance();
+//
+//
+//        // TODO: Temp. Created a test document
+//
+//        Map<String, Object> user = new HashMap<>();
+//        user.put("first", "Rosemary");
+//        user.put("last", "Morataya");
+//        user.put("username", "saggy_boob");
+//        user.put("password", "1234");
+//        user.put("cart_number", 1237);
+//
+//        // Add a new document with a generated ID
+//        db.collection("users")
+//                .add(user)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w("TAG", "Error adding document", e);
+//                    }
+//                });
+//
+//        // Read from database
+//        db.collection("users")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d("TAG", document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.w("TAG", "Error getting documents.", task.getException());
+//                        }
+//                    }
+//                });
 
 
 
