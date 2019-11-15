@@ -31,7 +31,6 @@ public class Product implements Comparable<Product>
     /* Instance Variables */
     private LinearLayout m_productLayout;
     private TextView     m_dealRating_tv;
-    private String       m_type;
     private String       m_name;
     private String       m_store;
     private String       m_deal;
@@ -43,17 +42,36 @@ public class Product implements Comparable<Product>
     /* Constructors */
 
     /**
-     *
-     * @param type
+     * Constructor to instantiate an existing product
      * @param name
      * @param store
      * @param deal
      * @param price
      */
-    public Product(String type, String name, String store, String deal, float price)
+    public Product(String name, String store, String deal, float price, int upvote, int downvote, String productId)
     {
         // Initialize Instance Variables
-        this.m_type         = type;
+        this.m_name         = name;
+        this.m_store        = store;
+        this.m_deal         = deal;
+        this.m_price        = price;
+        this.m_upvotes      = upvote;
+        this.m_downvotes    = downvote;
+
+        // Generate Product Id
+        this.m_productId = productId;
+    }
+
+    /**
+     * Constructor for creating a NEW Product
+     * @param name
+     * @param store
+     * @param deal
+     * @param price
+     */
+    public Product(String name, String store, String deal, float price)
+    {
+        // Initialize Instance Variables
         this.m_name         = name;
         this.m_store        = store;
         this.m_deal         = deal;
@@ -62,21 +80,9 @@ public class Product implements Comparable<Product>
         this.m_downvotes    = 0;
 
         // Generate Product Id
-        this.m_productId = generateProductId();
+        this.m_productId = this.generateProductId();
     }
 
-    public Product(String type, String name, String store, String deal, float price, String productId)
-    {
-        // Initialize Instance Variables
-        this.m_type         = type;
-        this.m_name         = name;
-        this.m_store        = store;
-        this.m_deal         = deal;
-        this.m_price        = price;
-        this.m_productId    = productId;
-        this.m_upvotes      = 0;
-        this.m_downvotes    = 0;
-    }
 
     /* Methods */
     /**
@@ -264,16 +270,6 @@ public class Product implements Comparable<Product>
     }
 
     /* Getters and Setters */
-    public String getType()
-    {
-        return m_type;
-    }
-
-    public void setType(String type)
-    {
-        this.m_type = type;
-    }
-
     public String getName()
     {
         return m_name;
@@ -345,9 +341,8 @@ public class Product implements Comparable<Product>
     }
 
 
-    public void setAll(String type, String name, String store, Float price, String deal)
+    public void setAll(String name, String store, Float price, String deal)
     {
-        this.setType(type);
         this.setName(name);
         this.setStore(store);
         this.setPrice(price);

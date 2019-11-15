@@ -1,41 +1,24 @@
 package com.example.gogobogo;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -45,11 +28,11 @@ public class MainActivity extends AppCompatActivity
         {
             if (!dialogData.get(0).getFieldString().isEmpty() && !dialogData.get(1).getFieldString().isEmpty() && !dialogData.get(2).getFieldString().isEmpty() && !dialogData.get(3).getFieldString().isEmpty()) {
                 gogoBogo.addProduct(new Product(
-                        "NONE?",
                         dialogData.get(0).getEditable().getText().toString(),
                         dialogData.get(1).getEditable().getText().toString(),
                         dialogData.get(2).getEditable().getText().toString(),
-                        Float.parseFloat(dialogData.get(3).getEditable().getText().toString())
+                        Float.parseFloat(dialogData.get(3).getEditable().getText().toString()
+                        )
                 ));
             }
             else {
@@ -65,9 +48,8 @@ public class MainActivity extends AppCompatActivity
 
 
     // TODO TESTING
-    FirebaseFirestore db;
+//    FirebaseFirestore db;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Generated Code //
@@ -82,16 +64,6 @@ public class MainActivity extends AppCompatActivity
 
         // Start login activity, which then waits for completion before returning to main
         transferToLoginActivity();
-
-        //give premissions //
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            System.out.println("Permission Granted");
-            boolean v = true;
-        } else {
-            System.out.println("Permission Denied");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            boolean v = false;
-        }
 
         // FAB ACTION //
         FloatingActionButton fab = findViewById(R.id.fab);

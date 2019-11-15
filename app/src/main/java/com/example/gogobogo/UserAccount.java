@@ -18,18 +18,18 @@
 
 package com.example.gogobogo;
 
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class UserAccount
 {
-    /* Static Variables */
-    private static int nextUserId = 0;
 
     /* Instance Variables */
-    private int             m_userId;
     private String          m_userName;
     private String          m_password;
-    private String          m_emailAddress;
-
-    private ShoppingList    shoppingList;
+    private String          m_shoppingListId;
 
     /* Constructors */
     public UserAccount (String userName, String password)
@@ -37,11 +37,9 @@ public class UserAccount
         this.m_userName = userName;
         this.m_password = password;
 
-        this.shoppingList = new ShoppingList();
 
-        // Set User ID
-        this.m_userId = nextUserId;
-        nextUserId++;
+        // Generate List Id
+        this.m_shoppingListId = generateShoppingListId();
 
         // getUser() - Get user from database with the above credentials
         // If the database has a matching user, return all the info and populate this object
@@ -68,11 +66,18 @@ public class UserAccount
         this.m_password = password;
     }
 
-    public String getEmailAddress() {
-        return m_emailAddress;
-    }
+    public String generateShoppingListId() //TODO. Maybe change the logic so that the products and users will be different Id's although it doesnt big matter
+    {
+        // Get the current time
+        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
 
-    public void setEmailAddress(String emailAddress) {
-        this.m_emailAddress = emailAddress;
+        // Generate a random int between 0 and 100
+        int rand = (int) (Math.random() * 100);
+
+        String shoppingListId = date.format(new Date()) + "-" + rand;
+
+        Log.d("DEBUG", "Generated new Shopping List ID: " + shoppingListId);
+
+        return shoppingListId;
     }
 } // end class
