@@ -14,12 +14,13 @@
 package com.example.gogobogo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingList
 {
 
     /* Instance Variables */
-    private ArrayList<Product> m_products;
+    private List<Product> m_products;
 
     /* Constructors */
     public ShoppingList()
@@ -49,7 +50,7 @@ public class ShoppingList
     }
 
 
-    public ArrayList<Product> getProducts()
+    public List<Product> getProducts()
     {
         return m_products;
     }

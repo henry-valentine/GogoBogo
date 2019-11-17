@@ -13,7 +13,7 @@
 
 // TODO
 // Favorite List of Stores
-// Load Info From Database. getUser() function?
+// Load Info From Database. requestUser() function?
 //
 
 package com.example.gogobogo;
@@ -21,41 +21,69 @@ package com.example.gogobogo;
 import android.util.Log;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 
 public class UserAccount
 {
 
     /* Instance Variables */
-    private String          m_userName;
+    private String          m_username;
     private String          m_password;
-    private String          m_shoppingListId;
+    //private String          m_shoppingListId;
+    private ArrayList<Product>    m_shoppingList;
+
+
 
     /* Constructors */
-    public UserAccount (String userName, String password)
-    {
-        this.m_userName = userName;
-        this.m_password = password;
 
+    public UserAccount ()
+    {
+        this(null, null);
+    }
+
+    public UserAccount (String username, String password)
+    {
+        this(username, password, new ArrayList<Product>());
+    }
+
+    public UserAccount (String username, String password, ArrayList<Product> shoppingList)
+    {
+        this.m_username = username;
+        this.m_password = password;
+        this.m_shoppingList = shoppingList;
 
         // Generate List Id
-        this.m_shoppingListId = generateShoppingListId();
-
-        // getUser() - Get user from database with the above credentials
-        // If the database has a matching user, return all the info and populate this object
-
+        //this.m_shoppingListId = generateShoppingListId();
     }
 
     /* Methods */
 
 
+
     /* Getters and Setters */
+    public void addProductToList(Product product) // TODO : Remove and verify
+    {
+        this.m_shoppingList.add(product);
+    }
+
+
+
+    public ArrayList<Product> getShoppingList()
+    {
+        return this.m_shoppingList;
+    }
+
+    public void setShoppingList(ArrayList<Product> shoppingList)
+    {
+        this.m_shoppingList = shoppingList;
+    }
+
     public String getUserName() {
-        return m_userName;
+        return m_username;
     }
 
     public void setUserName(String userName) {
-        this.m_userName = userName;
+        this.m_username = userName;
     }
 
     public String getPassword() {
@@ -66,18 +94,4 @@ public class UserAccount
         this.m_password = password;
     }
 
-    public String generateShoppingListId() //TODO. Maybe change the logic so that the products and users will be different Id's although it doesnt big matter
-    {
-        // Get the current time
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
-
-        // Generate a random int between 0 and 100
-        int rand = (int) (Math.random() * 100);
-
-        String shoppingListId = date.format(new Date()) + "-" + rand;
-
-        Log.d("DEBUG", "Generated new Shopping List ID: " + shoppingListId);
-
-        return shoppingListId;
-    }
 } // end class

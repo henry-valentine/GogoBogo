@@ -17,6 +17,7 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    public static MainActivity activity;
+    private static MainActivity activity;
     private GogoBogo gogoBogo;
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -89,6 +90,32 @@ public class MainActivity extends AppCompatActivity
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+        /// TESTTSS
+
+
+        DatabaseHelper dbh = new DatabaseHelper();
+        dbh.setOnUserAccountReceivedlistener(new DatabaseHelper.OnUserAccountReceived() {
+            @Override
+            public void onRetrieval(UserAccount user) {
+                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getUserName());
+                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getShoppingList());
+                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getShoppingList().get(2));
+            }
+        });
+
+        dbh.requestUser("Stewi", "badrepjeb");
+
+//        UserAccount user = new UserAccount("Stewi", "badrepjeb");
+//        user.addProductToList(new Product("Moostard", "Pooblex", "Your soul", 100));
+//        user.addProductToList(new Product("Mayo", "WallyWorld", "Your left nut", 100));
+//        user.addProductToList(new Product("Kashup", "Bridge", "?", 100));
+//
+//        dbh.addUser(user);
+
+
+
 
 
         // TODO : ALL BELOW IS TEST CODE
@@ -195,5 +222,9 @@ public class MainActivity extends AppCompatActivity
     public void setGogoBogo(GogoBogo gogoBogo)
     {
         this.gogoBogo = gogoBogo;
+    }
+
+    public static MainActivity getMainActivity() {
+        return activity;
     }
 }

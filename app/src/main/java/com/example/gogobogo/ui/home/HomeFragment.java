@@ -38,7 +38,7 @@ public class HomeFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
         // Add all the GogoBogo Products to the homeLayout
-        ArrayList<Product> products = MainActivity.activity.getGogoBogo().getProducts();
+        ArrayList<Product> products = MainActivity.getMainActivity().getGogoBogo().getProducts();
 
         // Sort the ArrayList by Deal Rating
         Collections.sort(products);
@@ -49,7 +49,7 @@ public class HomeFragment extends Fragment
         }
 
         // Set the Search View Query Listeners
-        SearchView searchView = MainActivity.activity.findViewById(R.id.searchBar);
+        SearchView searchView = MainActivity.getMainActivity().findViewById(R.id.searchBar);
 
         // Logic to Handle Query Text
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

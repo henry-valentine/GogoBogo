@@ -79,21 +79,21 @@ public class SearchOptions extends AppCompatDialogFragment
         for (String store : gogoBogo.getStoreList())
         {
             // Create a Checkbox for Each Store
-            CheckBox checkBox = new CheckBox(MainActivity.activity);
+            CheckBox checkBox = new CheckBox(MainActivity.getMainActivity());
             checkBox.setChecked(true);
             this.checkBoxes.add(checkBox);
 
             // Create Text Views
-            TextView storeName = new TextView(MainActivity.activity);
+            TextView storeName = new TextView(MainActivity.getMainActivity());
             storeName.setText(store);
             storeName.setTextColor(Color.WHITE);
 
-            TextView searchText = new TextView(MainActivity.activity);
+            TextView searchText = new TextView(MainActivity.getMainActivity());
             searchText.setText("Search");
             searchText.setTextColor(Color.LTGRAY);
 
             // Create Row
-            TableRow tableRow = new TableRow(MainActivity.activity);
+            TableRow tableRow = new TableRow(MainActivity.getMainActivity());
 
             // Add items to the row
             tableRow.addView(storeName);
