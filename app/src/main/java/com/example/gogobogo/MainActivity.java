@@ -92,31 +92,18 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
-        /// TESTTSS
-
-
-        DatabaseHelper dbh = new DatabaseHelper();
-        dbh.setOnUserAccountReceivedListener(new DatabaseHelper.OnUserAccountReceived() {
-            @Override
-            public void onRetrieval(UserAccount user) {
-                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getUsername());
-                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getShoppingList());
-                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getShoppingList().getProducts().get(2));
-            }
-        });
-
-        dbh.requestUser("Stewi", "badrepjeb");
-
-//        UserAccount user = new UserAccount("Stewi", "badrepjeb");
-//        user.addProductToList(new Product("Moostard", "Pooblex", "Your soul", 100));
-//        user.addProductToList(new Product("Mayo", "WallyWorld", "Your left nut", 100));
-//        user.addProductToList(new Product("Kashup", "Bridge", "?", 100));
+//        DatabaseHelper dbh = new DatabaseHelper();
 //
-//        dbh.addUser(user);
-
-
-
-
+//        ArrayList<Product> products = new ArrayList<>();
+//
+//        products.add(new Product("My Name", "The Store", "Big Deal", 123));
+//        products.add(new Product("My Name 2", "The Store 2", "Big Deal 2", 123));
+//        products.add(new Product("My Name 3", "The Store 3", "Big Deal 3", 123));
+//
+//
+//
+//        dbh.addProduct(products);
+        //gogoBogo.updateDealList();
 
         // TODO : ALL BELOW IS TEST CODE
 //        // Initialize the Database

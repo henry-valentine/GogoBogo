@@ -39,6 +39,7 @@ public class Product implements Comparable<Product>
     private int          m_downvotes;
     private float        m_price;
 
+
     private DatabaseHelper dbh = new DatabaseHelper();
 
 

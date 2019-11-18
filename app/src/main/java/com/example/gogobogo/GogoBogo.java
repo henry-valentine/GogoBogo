@@ -18,15 +18,17 @@ import java.util.ArrayList;
 public class GogoBogo
 {
     /* Instance Variables */
-    private ArrayList<Product>  products;           // Products on the home page
+    private ArrayList<Product> allProducts;           // Products on the home page
     private ShoppingList        shoppingList;       // Shopping List for the User
     private ArrayList<String>   storeList;          // List of Stores
+
+    private boolean isInitialized = false;
 
     UserAccount userAccount;
 
     public GogoBogo()
     {
-        this.products = new ArrayList<>();
+        this.allProducts = new ArrayList<>();
         this.shoppingList = new ShoppingList();
 
         this.storeList = new ArrayList<>();
@@ -41,13 +43,13 @@ public class GogoBogo
     }
 
     /**
-     * Filter the displayed products by a list of stores
-     * @param stores - List of stores to show products from
+     * Filter the displayed allProducts by a list of stores
+     * @param stores - List of stores to show allProducts from
      */
     public void filterByStore(ArrayList<String> stores)
     {
-        // Iterate through products
-        for (Product product : products)
+        // Iterate through allProducts
+        for (Product product : allProducts)
         {
             // If Product's store is not on filter list, hide it.
             if (!stores.contains(product.getStore()))
@@ -68,7 +70,7 @@ public class GogoBogo
     }
 
     public void addProduct(Product product) {
-        this.products.add(product);
+        this.allProducts.add(product);
 
         // Add product to the home screen
         product.addToLayout(R.id.homeLayout);
@@ -78,12 +80,12 @@ public class GogoBogo
     {
         // Remove product from the home page
         product.setVisible(false);
-        this.products.remove(product);
+        this.allProducts.remove(product);
     }
 
-    public ArrayList<Product> getProducts()
+    public ArrayList<Product> getAllProducts()
     {
-        return this.products;
+        return this.allProducts;
     }
 
     public void addToShoppingList(Product product)
@@ -108,6 +110,25 @@ public class GogoBogo
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
         this.shoppingList = userAccount.getShoppingList();
+    }
+
+
+    public void updateDealList()
+    {
+        DatabaseHelper dbh = new DatabaseHelper();
+
+        dbh.setOnProductListReceivedListener(new DatabaseHelper.OnProductListReceived() {
+            @Override
+            public void onRetrieval(ArrayList<Product> products) {
+                for (Product product : products)
+                {
+                    addProduct(product); // TODO : ALLOW FOR RE-UPDATING WITHOUT ADDING DUPLICATES!
+
+                }
+            }
+        });
+
+        dbh.getAllProducts();
     }
 }
 

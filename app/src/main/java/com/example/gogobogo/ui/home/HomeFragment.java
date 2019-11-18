@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
@@ -38,7 +37,7 @@ public class HomeFragment extends Fragment
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
         // Add all the GogoBogo Products to the homeLayout
-        ArrayList<Product> products = MainActivity.getMainActivity().getGogoBogo().getProducts();
+        ArrayList<Product> products = MainActivity.getMainActivity().getGogoBogo().getAllProducts();
 
         // Sort the ArrayList by Deal Rating
         Collections.sort(products);

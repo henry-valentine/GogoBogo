@@ -144,6 +144,14 @@ public class DatabaseHelper
         m_database.collection(PRODUCT_DB_NAME).add(product);
     }
 
+    public void addProduct(ArrayList<Product> products)
+    {
+        for (Product product : products)
+        {
+            m_database.collection(PRODUCT_DB_NAME).add(product);
+        }
+    }
+
     public Product getProduct(int id)
     {
         Product result = null;
@@ -167,16 +175,17 @@ public class DatabaseHelper
         return result;
     }
 
-    public void getRangeOfProducts(int startRange, int endRange)
+    public void getAllProducts()
     {
         // TODO : TESTTTT MEEEE! VERIFFYYY MEEEE!
-        m_database.collection(PRODUCT_DB_NAME).startAt(startRange).endAt(endRange).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        m_database.collection(PRODUCT_DB_NAME).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 ArrayList<Product> result = new ArrayList<>();
 
                 if (task.isSuccessful())
                 {
+                    Log.println(Log.ASSERT, "INFO", "Getting products...");
                     for (QueryDocumentSnapshot document : task.getResult())
                     {
                         result.add(document.toObject(Product.class));
