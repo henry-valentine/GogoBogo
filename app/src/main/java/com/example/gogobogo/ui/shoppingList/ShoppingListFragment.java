@@ -61,6 +61,4 @@ public class ShoppingListFragment extends Fragment {
     {
         return this.shoppingListViewModel;
     }
-
-
 }

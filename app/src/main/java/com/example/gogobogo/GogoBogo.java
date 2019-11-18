@@ -62,6 +62,11 @@ public class GogoBogo
 
     }
 
+    public void updateDB()
+    {
+
+    }
+
     public void addProduct(Product product) {
         this.products.add(product);
 
@@ -102,6 +107,7 @@ public class GogoBogo
 
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
+        this.shoppingList = userAccount.getShoppingList();
     }
 }
 

@@ -1,34 +1,27 @@
 package com.example.gogobogo;
 
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-
-import static androidx.constraintlayout.widget.Constraints.TAG;
 
 public class DatabaseHelper
 {
     private static final String USER_DB_NAME = "users";
     private static final String PRODUCT_DB_NAME = "products";
 
-    private DatabaseHelper.OnUserAccountReceived onUserAccountReceivedlistener;
+    private OnUserAccountReceived onUserAccountReceivedListener;
+    private OnProductListReceived onProductListReceivedListener;
 
     private FirebaseFirestore m_database = FirebaseFirestore.getInstance();
 
@@ -53,11 +46,24 @@ public class DatabaseHelper
                 .add(user);
     }
 
+    public void updateUser()
+    {
+        UserAccount user =  MainActivity.getMainActivity().getGogoBogo().getUserAccount();
+        updateUser(user);
+    }
+
+    public void updateUser(UserAccount user)
+    {
+        m_database.collection("users").document(user.getUserID()).set(user);
+    }
+
+
+
     public void requestUser(final String username, String password)
     {
         m_tmpUser = new UserAccount(username, password);
 
-        m_database.collection("users").whereEqualTo("userName", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        m_database.collection("users").whereEqualTo("username", username).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
 
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -77,13 +83,14 @@ public class DatabaseHelper
                             if (user.getPassword().equals(m_tmpUser.getPassword()))          // Valid password
                             {
                                 Log.println(Log.ASSERT, "INFO", "Valid Credentials");
-                                onUserAccountReceivedlistener.onRetrieval(user);
+                                user.setUserID(document.getId());
+                                onUserAccountReceivedListener.onRetrieval(user);
                             }
 
                             else                                                            // Invalid password
                             {
                                 Log.println(Log.ASSERT, "INFO", "Invalid Credentials " + m_tmpUser.getPassword() + " and got " + user.getPassword());
-                                onUserAccountReceivedlistener.onRetrieval(null);
+                                onUserAccountReceivedListener.onRetrieval(null);
                             }
                         }
                     }
@@ -94,7 +101,7 @@ public class DatabaseHelper
 
                 if (user != null)
                 {
-                    Log.println(Log.ASSERT, "INFO", "Current Object Name: " + user.getUserName());
+                    Log.println(Log.ASSERT, "INFO", "Current Object Name: " + user.getUsername());
                 }
             }
         });
@@ -118,13 +125,14 @@ public class DatabaseHelper
                         for (QueryDocumentSnapshot document : task.getResult())
                         {
                             user = document.toObject(UserAccount.class);
+                            user.setUserID(document.getId());
                         }
                     }
 
                     else
                         Log.e("DATABASE", "MULTIPLE USER'S WITH SAME NAME!");
 
-                    onUserAccountReceivedlistener.onRetrieval(user);
+                    onUserAccountReceivedListener.onRetrieval(user);
                 }
             }
         });
@@ -132,7 +140,8 @@ public class DatabaseHelper
 
     public void addProduct(String name, String store, float price, String deal, int id, int upvotes, int downvotes)
     {
-
+        Product product = new Product(name, store, deal, price, upvotes, downvotes, null);
+        m_database.collection(PRODUCT_DB_NAME).add(product);
     }
 
     public Product getProduct(int id)
@@ -144,6 +153,7 @@ public class DatabaseHelper
 
     public ArrayList<Product> getProductsByName(String name)
     {
+        // TODO
         ArrayList<Product> result = null;
 
         return result;
@@ -151,9 +161,31 @@ public class DatabaseHelper
 
     public ArrayList<Product> getProductByStore(String name)
     {
+        // TODO
         ArrayList<Product> result = null;
 
         return result;
+    }
+
+    public void getRangeOfProducts(int startRange, int endRange)
+    {
+        // TODO : TESTTTT MEEEE! VERIFFYYY MEEEE!
+        m_database.collection(PRODUCT_DB_NAME).startAt(startRange).endAt(endRange).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                ArrayList<Product> result = new ArrayList<>();
+
+                if (task.isSuccessful())
+                {
+                    for (QueryDocumentSnapshot document : task.getResult())
+                    {
+                        result.add(document.toObject(Product.class));
+                    }
+
+                    onProductListReceivedListener.onRetrieval(result);
+                }
+            }
+        });
     }
 
     public String generateID() //TODO. Maybe change the logic so that the products and users will be different Id's although it doesnt big matter
@@ -173,14 +205,30 @@ public class DatabaseHelper
 
     public interface OnUserAccountReceived
     {
-        public void onRetrieval(UserAccount user);
+        void onRetrieval(UserAccount user);
     }
 
-    public OnUserAccountReceived getOnUserAccountReceivedlistener() {
-        return onUserAccountReceivedlistener;
+    public interface OnProductListReceived
+    {
+        void onRetrieval(ArrayList<Product> products);
     }
 
-    public void setOnUserAccountReceivedlistener(OnUserAccountReceived onUserAccountReceivedlistener) {
-        this.onUserAccountReceivedlistener = onUserAccountReceivedlistener;
+    public OnUserAccountReceived getOnUserAccountReceivedListener() {
+        return onUserAccountReceivedListener;
     }
+
+    public void setOnUserAccountReceivedListener(OnUserAccountReceived onUserAccountReceivedlistener) {
+        this.onUserAccountReceivedListener = onUserAccountReceivedlistener;
+    }
+
+    public OnProductListReceived getOnProductListReceivedListener()
+    {
+        return this.onProductListReceivedListener;
+    }
+
+    public void setOnProductListReceivedListener(OnProductListReceived listener)
+    {
+        this.onProductListReceivedListener = listener;
+    }
+
 }

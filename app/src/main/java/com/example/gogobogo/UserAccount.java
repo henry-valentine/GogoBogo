@@ -30,7 +30,8 @@ public class UserAccount
     private String          m_username;
     private String          m_password;
     //private String          m_shoppingListId;
-    private ArrayList<Product>    m_shoppingList;
+    private ShoppingList    m_shoppingList;
+    private String userID;
 
 
 
@@ -43,10 +44,10 @@ public class UserAccount
 
     public UserAccount (String username, String password)
     {
-        this(username, password, new ArrayList<Product>());
+        this(username, password, new ShoppingList());
     }
 
-    public UserAccount (String username, String password, ArrayList<Product> shoppingList)
+    public UserAccount (String username, String password, ShoppingList shoppingList)
     {
         this.m_username = username;
         this.m_password = password;
@@ -63,27 +64,27 @@ public class UserAccount
     /* Getters and Setters */
     public void addProductToList(Product product) // TODO : Remove and verify
     {
-        this.m_shoppingList.add(product);
+        this.m_shoppingList.getProducts().add(product);
     }
 
 
 
-    public ArrayList<Product> getShoppingList()
+    public ShoppingList getShoppingList()
     {
         return this.m_shoppingList;
     }
 
-    public void setShoppingList(ArrayList<Product> shoppingList)
+    public void setShoppingList(ShoppingList shoppingList)
     {
         this.m_shoppingList = shoppingList;
     }
 
-    public String getUserName() {
+    public String getUsername() {
         return m_username;
     }
 
-    public void setUserName(String userName) {
-        this.m_username = userName;
+    public void setUsername(String username) {
+        this.m_username = username;
     }
 
     public String getPassword() {
@@ -92,6 +93,16 @@ public class UserAccount
 
     public void setPassword(String password) {
         this.m_password = password;
+    }
+
+    public String getUserID()
+    {
+        return this.userID;
+    }
+
+    public void setUserID(String id)
+    {
+        this.userID = id;
     }
 
 } // end class

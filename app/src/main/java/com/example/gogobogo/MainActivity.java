@@ -17,7 +17,6 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.auth.User;
 
 import java.util.ArrayList;
 
@@ -66,6 +65,7 @@ public class MainActivity extends AppCompatActivity
         // Start login activity, which then waits for completion before returning to main
         transferToLoginActivity();
 
+
         // FAB ACTION //
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -96,12 +96,12 @@ public class MainActivity extends AppCompatActivity
 
 
         DatabaseHelper dbh = new DatabaseHelper();
-        dbh.setOnUserAccountReceivedlistener(new DatabaseHelper.OnUserAccountReceived() {
+        dbh.setOnUserAccountReceivedListener(new DatabaseHelper.OnUserAccountReceived() {
             @Override
             public void onRetrieval(UserAccount user) {
-                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getUserName());
+                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getUsername());
                 Log.println(Log.ASSERT, "INFO", "Received data: " + user.getShoppingList());
-                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getShoppingList().get(2));
+                Log.println(Log.ASSERT, "INFO", "Received data: " + user.getShoppingList().getProducts().get(2));
             }
         });
 

@@ -54,5 +54,9 @@ public class ShoppingList
     {
         return m_products;
     }
+    public void setProducts(List<Product> products)
+    {
+        this.m_products = products;
+    }
 
 } // end class

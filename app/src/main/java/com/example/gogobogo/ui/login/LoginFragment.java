@@ -1,7 +1,6 @@
 package com.example.gogobogo.ui.login;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +49,7 @@ public class LoginFragment extends Fragment
             m_tmpUser = new UserAccount(name, pass);
 
             // Verify that the user doesn't already exist by requesting the user from the database.
-            dbh.setOnUserAccountReceivedlistener(new DatabaseHelper.OnUserAccountReceived() {
+            dbh.setOnUserAccountReceivedListener(new DatabaseHelper.OnUserAccountReceived() {
                 @Override
                 public void onRetrieval(UserAccount user) {
                     if (user == null)
@@ -159,7 +158,7 @@ public class LoginFragment extends Fragment
 
         if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
 
-            dbh.setOnUserAccountReceivedlistener(new DatabaseHelper.OnUserAccountReceived() {
+            dbh.setOnUserAccountReceivedListener(new DatabaseHelper.OnUserAccountReceived() {
                 @Override
                 public void onRetrieval(UserAccount user) {
                     attemptLogin(user);

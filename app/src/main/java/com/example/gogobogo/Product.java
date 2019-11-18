@@ -39,6 +39,9 @@ public class Product implements Comparable<Product>
     private int          m_downvotes;
     private float        m_price;
 
+    private DatabaseHelper dbh = new DatabaseHelper();
+
+
     /* Constructors */
 
 
@@ -61,13 +64,7 @@ public class Product implements Comparable<Product>
         this.m_productId = productId;
     }
 
-    /**
-     * Constructor for creating a NEW Product
-     * @param name
-     * @param store
-     * @param deal
-     * @param price
-     */
+
     public Product(String name, String store, String deal, float price)
     {
         // Initialize Instance Variables
@@ -98,6 +95,8 @@ public class Product implements Comparable<Product>
 
         // Layout to Add This Product To
         LinearLayout lm = MainActivity.getMainActivity().findViewById(layout_id);
+
+        Log.println(Log.ASSERT, "INFO", "LM: " + lm);
 
         // Set the Layout parameters
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
@@ -177,6 +176,8 @@ public class Product implements Comparable<Product>
         downButton.setPadding(20, 20, 20, 0);
         downButton.setLayoutParams(params);
 
+
+
         // Set click listener for button
         downButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -196,6 +197,8 @@ public class Product implements Comparable<Product>
                     Snackbar.make(v, ("Removing Product: " + m_name), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
+
+                dbh.updateUser();
             }
         });
 
@@ -225,6 +228,8 @@ public class Product implements Comparable<Product>
                 Log.i("TAG", "UPVOTE RECEIVED");
                 Snackbar.make(v, ("Upvotes Received: " + m_upvotes), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                dbh.updateUser();
             }
         });
 
@@ -233,6 +238,7 @@ public class Product implements Comparable<Product>
 
         // Add Product to the Home Linear Layout
         lm.addView(m_productLayout);
+
 
     } // end addToLayout
 
@@ -260,12 +266,14 @@ public class Product implements Comparable<Product>
     private void addToShoppingList()
     {
         MainActivity.getMainActivity().getGogoBogo().addToShoppingList(this);
+        dbh.updateUser();
     }
 
     private void removeFromShoppingList()
     {
         ShoppingList shoppingList = MainActivity.getMainActivity().getGogoBogo().getShoppingList();
         shoppingList.removeProduct(this);
+        dbh.updateUser();
     }
 
     /* Getters and Setters */
