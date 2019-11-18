@@ -57,7 +57,8 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    public static MainActivity activity;
+    private static MainActivity activity;
+
     private GogoBogo gogoBogo;
 
     private AppBarConfiguration mAppBarConfiguration;
@@ -223,5 +224,15 @@ public class MainActivity extends AppCompatActivity
     public void setGogoBogo(GogoBogo gogoBogo)
     {
         this.gogoBogo = gogoBogo;
+    }
+
+    public static MainActivity getMainActivity()
+    {
+        return activity;
+    }
+
+    public static void setMainActivity(MainActivity mainActivity)
+    {
+        activity = mainActivity;
     }
 }

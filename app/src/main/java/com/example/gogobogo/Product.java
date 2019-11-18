@@ -69,10 +69,10 @@ public class Product implements Comparable<Product>
     public void addToLayout(final int layout_id)
     {
         // Activity Context
-        Context context = MainActivity.activity;
+        Context context = MainActivity.getMainActivity();
 
         // Layout to Add This Product To
-        LinearLayout lm = MainActivity.activity.findViewById(layout_id);
+        LinearLayout lm = MainActivity.getMainActivity().findViewById(layout_id);
 
         // Set the Layout parameters
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
@@ -218,12 +218,12 @@ public class Product implements Comparable<Product>
 
     private void addToShoppingList()
     {
-        MainActivity.activity.getGogoBogo().addToShoppingList(this);
+        MainActivity.getMainActivity().getGogoBogo().addToShoppingList(this);
     }
 
     private void removeFromShoppingList()
     {
-        ShoppingList shoppingList = MainActivity.activity.getGogoBogo().getShoppingList();
+        ShoppingList shoppingList = MainActivity.getMainActivity().getGogoBogo().getShoppingList();
         shoppingList.removeProduct(this);
     }
 
@@ -322,11 +322,11 @@ public class Product implements Comparable<Product>
         if (getDealRating() < -5)
         {
             // Remove From Shopping List if it's there
-            ShoppingList shoppingList = MainActivity.activity.getGogoBogo().shoppingList;
+            ShoppingList shoppingList = MainActivity.getMainActivity().getGogoBogo().shoppingList;
             shoppingList.removeProduct(this);
 
             // Remove from Home Page
-            MainActivity.activity.getGogoBogo().removeProduct(this);
+            MainActivity.getMainActivity().getGogoBogo().removeProduct(this);
 
             return true;
         }

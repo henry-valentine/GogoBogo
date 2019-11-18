@@ -41,7 +41,7 @@ public class GenericEditor extends AppCompatDialogFragment
 
     private OnInputListener mOnInputListener;
 
-    private ArrayList<GERow> mRows = new ArrayList<>();
+    private ArrayList<GERow> mRows;
 
 
     public GenericEditor(String title, ArrayList<GERow> rows)
