@@ -103,6 +103,16 @@ public class GogoBogo
         return this.allProducts;
     }
 
+    public void setAllProducts(ArrayList<Product> products)
+    {
+        this.allProducts = products;
+
+        for (Product product : products)
+        {
+            product.addToLayout(R.id.homeLayout);
+        }
+    }
+
     public void addToShoppingList(Product product)
     {
         shoppingList.addProduct(product);
@@ -128,24 +138,7 @@ public class GogoBogo
     }
 
 
-    public void updateDealList()
-    {
-        DatabaseHelper dbh = new DatabaseHelper();
 
-        dbh.setOnProductListReceivedListener(new DatabaseHelper.OnProductListReceived() {
-            @Override
-            public void onRetrieval(ArrayList<Product> products) {
-                for (Product product : products)
-                {
-                    if(product.getProductId() == null)
-                        addProduct(product);
-
-                }
-            }
-        });
-
-        dbh.getAllProducts();
-    }
 }
 
 

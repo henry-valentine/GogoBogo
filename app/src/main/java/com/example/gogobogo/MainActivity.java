@@ -64,6 +64,15 @@ public class MainActivity extends AppCompatActivity
 
         // Start login activity, which then waits for completion before returning to main
         transferToLoginActivity();
+        DatabaseHelper dbh = new DatabaseHelper();
+        dbh.setOnProductListReceivedListener(new DatabaseHelper.OnProductListReceived() {
+            @Override
+            public void onRetrieval(ArrayList<Product> products) {
+                gogoBogo.setAllProducts(products);
+            }
+        });
+
+        dbh.getAllProducts();
 
 
         // FAB ACTION //
