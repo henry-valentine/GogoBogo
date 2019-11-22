@@ -23,40 +23,63 @@ import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public class Product implements Comparable<Product>
 {
-    /* Static Variables */
-    private static int nextProductId = 0;
-
     /* Instance Variables */
     private LinearLayout m_productLayout;
     private TextView     m_dealRating_tv;
-    private String       m_type;
     private String       m_name;
     private String       m_store;
     private String       m_deal;
-    private int          m_productId;
+    private String       m_productId;
     private int          m_upvotes;
     private int          m_downvotes;
     private float        m_price;
 
+
+    private DatabaseHelper dbh = new DatabaseHelper();
+
+
     /* Constructors */
-    public Product(String type, String name, String store, String deal, float price)
+
+
+    public Product ()
+    {
+        this("None", "None", "None", -1, 0, 0, null);
+    }
+
+    public Product(String name, String store, String deal, float price, int upvote, int downvote, String productId)
     {
         // Initialize Instance Variables
-        this.m_type         = type;
         this.m_name         = name;
         this.m_store        = store;
         this.m_deal         = deal;
         this.m_price        = price;
+        this.m_upvotes      = upvote;
+        this.m_downvotes    = downvote;
 
+        // Generate Product Id
+        this.m_productId = productId;
+    }
+
+
+    public Product(String name, String store, String deal, float price)
+    {
+        // Initialize Instance Variables
+        this.m_name         = name;
+        this.m_store        = store;
+        this.m_deal         = deal;
+        this.m_price        = price;
         this.m_upvotes      = 0;
         this.m_downvotes    = 0;
 
-        // Set Product ID
-        this.m_productId = nextProductId;
-        nextProductId++;
+        // Generate Product Id
+        this.m_productId = null;
     }
+
 
     /* Methods */
     /**
@@ -74,12 +97,15 @@ public class Product implements Comparable<Product>
         // Layout to Add This Product To
         LinearLayout lm = MainActivity.getMainActivity().findViewById(layout_id);
 
+        Log.println(Log.ASSERT, "INFO", "LM: " + lm);
+
         // Set the Layout parameters
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
                 (ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
 
         // Create LinearLayout for product
         this.m_productLayout = new LinearLayout(context);
+        this.setVisible(true);
         m_productLayout.setOrientation(LinearLayout.HORIZONTAL);
         m_productLayout.setBackgroundColor(0xf2f2f2f2);
 
@@ -130,7 +156,7 @@ public class Product implements Comparable<Product>
 
         // Create TextView
         TextView product = new TextView(context);
-        product.setText(m_type + "\n" + m_name + "\n" + m_store + "\n" + m_deal);
+        product.setText(m_name + "\n" + m_store + "\n" + m_deal);
         product.setWidth(450);
         m_productLayout.addView(product);
 
@@ -151,6 +177,8 @@ public class Product implements Comparable<Product>
         downButton.setPadding(20, 20, 20, 0);
         downButton.setLayoutParams(params);
 
+
+
         // Set click listener for button
         downButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
@@ -170,6 +198,8 @@ public class Product implements Comparable<Product>
                     Snackbar.make(v, ("Removing Product: " + m_name), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
+
+                dbh.updateUser();
             }
         });
 
@@ -199,6 +229,8 @@ public class Product implements Comparable<Product>
                 Log.i("TAG", "UPVOTE RECEIVED");
                 Snackbar.make(v, ("Upvotes Received: " + m_upvotes), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                dbh.updateUser();
             }
         });
 
@@ -208,7 +240,23 @@ public class Product implements Comparable<Product>
         // Add Product to the Home Linear Layout
         lm.addView(m_productLayout);
 
+
     } // end addToLayout
+
+    /**
+     * Set visibility of a product
+     */
+    public void setVisible(boolean visible)
+    {
+        if (visible)
+        {
+            this.m_productLayout.setVisibility(View.VISIBLE);
+        }
+        else
+        {
+            this.m_productLayout.setVisibility(View.GONE);
+        }
+    }
 
     @Override
     public int compareTo(Product product) {
@@ -219,25 +267,17 @@ public class Product implements Comparable<Product>
     private void addToShoppingList()
     {
         MainActivity.getMainActivity().getGogoBogo().addToShoppingList(this);
+        dbh.updateUser();
     }
 
     private void removeFromShoppingList()
     {
         ShoppingList shoppingList = MainActivity.getMainActivity().getGogoBogo().getShoppingList();
         shoppingList.removeProduct(this);
+        dbh.updateUser();
     }
 
     /* Getters and Setters */
-    public String getType()
-    {
-        return m_type;
-    }
-
-    public void setType(String type)
-    {
-        this.m_type = type;
-    }
-
     public String getName()
     {
         return m_name;
@@ -298,15 +338,30 @@ public class Product implements Comparable<Product>
         this.m_price = price;
     }
 
-
-    public void setAll(String type, String name, String store, Float price, String deal)
+    public String getProductId()
     {
-        this.setType(type);
+        return this.m_productId;
+    }
+
+    public void setProductId(String id)
+    {
+        this.m_productId = id;
+    }
+
+
+    public void setAll(String name, String store, Float price, String deal)
+    {
         this.setName(name);
         this.setStore(store);
         this.setPrice(price);
         this.setDeal(deal);
     }
+
+    /**
+     * Generates a unique product id
+     * @return
+     */
+
 
     public int getDealRating()
     {
@@ -322,7 +377,7 @@ public class Product implements Comparable<Product>
         if (getDealRating() < -5)
         {
             // Remove From Shopping List if it's there
-            ShoppingList shoppingList = MainActivity.getMainActivity().getGogoBogo().shoppingList;
+            ShoppingList shoppingList = MainActivity.getMainActivity().getGogoBogo().getShoppingList();
             shoppingList.removeProduct(this);
 
             // Remove from Home Page

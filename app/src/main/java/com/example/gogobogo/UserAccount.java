@@ -13,52 +13,78 @@
 
 // TODO
 // Favorite List of Stores
-// Load Info From Database. getUser() function?
+// Load Info From Database. requestUser() function?
 //
 
 package com.example.gogobogo;
 
+import android.util.Log;
+
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
 public class UserAccount
 {
-    /* Static Variables */
-    private static int nextUserId = 0;
 
     /* Instance Variables */
-    private int             m_userId;
-    private String          m_userName;
+    private String          m_username;
     private String          m_password;
-    private String          m_emailAddress;
+    //private String          m_shoppingListId;
+    private ShoppingList    m_shoppingList;
+    private String userID;
 
-    private ShoppingList    shoppingList;
+
 
     /* Constructors */
-    public UserAccount (String userName, String email, String password)
+
+    public UserAccount ()
     {
-        this.m_userName = userName;
-        this.m_emailAddress = email;
+        this(null, null);
+    }
+
+    public UserAccount (String username, String password)
+    {
+        this(username, password, new ShoppingList());
+    }
+
+    public UserAccount (String username, String password, ShoppingList shoppingList)
+    {
+        this.m_username = username;
         this.m_password = password;
+        this.m_shoppingList = shoppingList;
 
-        this.shoppingList = new ShoppingList();
-
-        // Set User ID
-        this.m_userId = nextUserId;
-        nextUserId++;
-
-        // getUser() - Get user from database with the above credentials
-        // If the database has a matching user, return all the info and populate this object
-
+        // Generate List Id
+        //this.m_shoppingListId = generateShoppingListId();
     }
 
     /* Methods */
 
 
+
     /* Getters and Setters */
-    public String getUserName() {
-        return m_userName;
+    public void addProductToList(Product product) // TODO : Remove and verify
+    {
+        this.m_shoppingList.getProducts().add(product);
     }
 
-    public void setUserName(String userName) {
-        this.m_userName = userName;
+
+
+    public ShoppingList getShoppingList()
+    {
+        return this.m_shoppingList;
+    }
+
+    public void setShoppingList(ShoppingList shoppingList)
+    {
+        this.m_shoppingList = shoppingList;
+    }
+
+    public String getUsername() {
+        return m_username;
+    }
+
+    public void setUsername(String username) {
+        this.m_username = username;
     }
 
     public String getPassword() {
@@ -69,11 +95,14 @@ public class UserAccount
         this.m_password = password;
     }
 
-    public String getEmailAddress() {
-        return m_emailAddress;
+    public String getUserID()
+    {
+        return this.userID;
     }
 
-    public void setEmailAddress(String emailAddress) {
-        this.m_emailAddress = emailAddress;
+    public void setUserID(String id)
+    {
+        this.userID = id;
     }
+
 } // end class

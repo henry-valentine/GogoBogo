@@ -1,7 +1,6 @@
 package com.example.gogobogo.ui.login;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.gogobogo.DatabaseHelper;
 import com.example.gogobogo.GenericEditor;
 import com.example.gogobogo.R;
 import com.example.gogobogo.UserAccount;
@@ -29,27 +29,47 @@ public class LoginFragment extends Fragment
     private Button loginButton;
     private TextView registrationButton;
     private UserAccount userAccount;
+    private UserAccount m_tmpUser;
+
+    private DatabaseHelper dbh;
 
     private GenericEditor registrationWindow;
     private GenericEditor.OnInputListener registerListener = new GenericEditor.OnInputListener() {
         @Override
         public void sendInput(ArrayList<GenericEditor.GERow> dialogData) {
+            // Upon the pressing of the 'Accept' button within the register window...
+
             String name = dialogData.get(0).getEditable().getText().toString();
-            String email = dialogData.get(1).getEditable().getText().toString();
+            String email = dialogData.get(1).getEditable().getText().toString(); // Depreciated
             String pass = dialogData.get(2).getEditable().getText().toString();
 
-            UserAccount user = new UserAccount(name, pass);
+            // Instantiate database helper, setup the temporary user...
+            dbh = new DatabaseHelper(); // TODO: VERIFY THAT THIS DOES NOT BREAK IF LISTENER IS OVERWRITTEN!
 
-            if (isUniqueCredentials(user))
-            {
-                userAccount = user;
-                if (loginListener == null)
-                    Log.e("REGISTER", "MISSING LOGIN LISTENER! Must override OnLoginListener!");
+            m_tmpUser = new UserAccount(name, pass);
 
-                // TODO : Add user to database
+            // Verify that the user doesn't already exist by requesting the user from the database.
+            dbh.setOnUserAccountReceivedListener(new DatabaseHelper.OnUserAccountReceived() {
+                @Override
+                public void onRetrieval(UserAccount user) {
+                    if (user == null)
+                    {
+                        userAccount = m_tmpUser;
 
-                //loginListener.onLogin(user);
-            }
+                        dbh.addUser(m_tmpUser);
+
+                        loginListener.onLogin(userAccount);
+                    }
+
+                    else
+                        Toast.makeText(getContext(), "Sorry, user credentials already exist.", Toast.LENGTH_SHORT);
+                }
+            });
+
+            // Executes the retrieval of the user for unique credential verification.
+            dbh.getUserByName(name);
+
+
         }
     };
 
@@ -86,7 +106,7 @@ public class LoginFragment extends Fragment
 
                 if ((event.getAction() == KeyEvent.ACTION_DOWN) && (keyCode == KeyEvent.KEYCODE_ENTER))
                 {
-                    attemptLogin();
+                    retrieveUserFromDB();
                     result = true;
                 }
 
@@ -99,7 +119,7 @@ public class LoginFragment extends Fragment
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                attemptLogin();
+                retrieveUserFromDB();
             }
         });
 
@@ -112,16 +132,11 @@ public class LoginFragment extends Fragment
 
     }
 
-    private void attemptLogin()
+    private void attemptLogin(UserAccount user)
     {
-        UserAccount account = retrieveUserFromDB(username.getText().toString(), password.getText().toString());
-        if (account != null)
+        if (user != null)
         {
-            // TODO : Find user information from credentials
-
-            // TEST
-            userAccount = account;
-            // END TEST
+            userAccount = user;
 
             loginListener.onLogin(userAccount);
         }
@@ -129,36 +144,32 @@ public class LoginFragment extends Fragment
         else
         {
             Toast.makeText(getActivity(), "Sorry, invalid credentials.", Toast.LENGTH_SHORT).show();
-            username.setText(null);
-            password.setText(null);
         }
     }
 
-    private UserAccount retrieveUserFromDB(String username, String password)
+    private void retrieveUserFromDB()
     {
         // Use this to validate user credentials within the text fields
-        UserAccount result = new UserAccount("", "");
 
-        // TODO: Database user validation
-        // TEST LOGIC
-        if (!username.isEmpty() && !password.isEmpty())
-        {
-            result.setPassword(password);
-            result.setUserName(username);
+        String username = this.username.getText().toString();
+        String password = this.password.getText().toString();
+
+        DatabaseHelper dbh = new DatabaseHelper();
+
+        if (username != null && !username.isEmpty() && password != null && !password.isEmpty()) {
+
+            dbh.setOnUserAccountReceivedListener(new DatabaseHelper.OnUserAccountReceived() {
+                @Override
+                public void onRetrieval(UserAccount user) {
+                    attemptLogin(user);
+                }
+            });
+
+            dbh.requestUser(username, password);
         }
 
-        return result;
-    }
-
-    private boolean isUniqueCredentials(UserAccount user)
-    {
-        boolean result = false;
-
-        // TODO: Database unique user validation
-        // TEST:
-        result = true;
-
-        return result;
+        else
+            attemptLogin(null);
     }
 
     private void buildRegistrationWindow()
@@ -169,6 +180,7 @@ public class LoginFragment extends Fragment
         rows.add(new GenericEditor.GERow("Password", "password", getActivity(), true));
 
         GenericEditor registrationWindow = new GenericEditor("Register", rows);
+        registrationWindow.setOnInputListener(registerListener);
         registrationWindow.show(getFragmentManager(), "REGISTRATION_EDITOR");
     }
 

@@ -12,26 +12,67 @@
 * */
 
 package com.example.gogobogo;
+
+
+import com.google.android.gms.tasks.OnSuccessListener;
+
 import java.util.ArrayList;
 
 
 public class GogoBogo
 {
-
-    public ArrayList<Product> products;     // Products on the home page
-    public ShoppingList shoppingList;       // Shopping List for the User
-
     /* Instance Variables */
+    private ArrayList<Product> allProducts;           // Products on the home page
+    private ShoppingList        shoppingList;       // Shopping List for the User
+    private ArrayList<String>   storeList;          // List of Stores
+
+    private Product tmpProduct = null;
+
     UserAccount userAccount;
 
     public GogoBogo()
     {
-        this.products = new ArrayList<>();
+        this.allProducts = new ArrayList<>();
         this.shoppingList = new ShoppingList();
+
+        this.storeList = new ArrayList<>();
+
+        // TODO : Populate from Database instead of Hardcoding
+        ////////////////////////////////////////////////////////
+        storeList.add("Walmart");
+        storeList.add("Publix");
+        storeList.add("Aldi");
+        storeList.add("NM Walmart");
+        ////////////////////////////////////////////////////////
+    }
+
+    /**
+     * Filter the displayed allProducts by a list of stores
+     * @param stores - List of stores to show allProducts from
+     */
+    public void filterByStore(ArrayList<String> stores)
+    {
+        // Iterate through allProducts
+        for (Product product : allProducts)
+        {
+            // If Product's store is not on filter list, hide it.
+            if (!stores.contains(product.getStore()))
+            {
+                product.setVisible(false);
+            }
+            else
+            {
+                product.setVisible(true);
+            }
+        }
+
     }
 
     public void addProduct(Product product) {
-        this.products.add(product);
+        this.allProducts.add(product);
+
+        DatabaseHelper dbh = new DatabaseHelper();
+        dbh.addProduct(product);
 
         // Add product to the home screen
         product.addToLayout(R.id.homeLayout);
@@ -39,18 +80,38 @@ public class GogoBogo
 
     public void removeProduct(Product product)
     {
-        this.products.remove(product);
+        // Remove product from the home page
+        product.setVisible(false);
+
+        tmpProduct = product;
+
+        DatabaseHelper dbh = new DatabaseHelper();
+        OnSuccessListener deleteListener = new OnSuccessListener() {
+            @Override
+            public void onSuccess(Object o) {
+                allProducts.remove(tmpProduct);
+            }
+        };
+
+        dbh.removeProduct(product.getProductId(), deleteListener);
     }
 
-    public ArrayList<Product> getProducts()
+
+
+    public ArrayList<Product> getAllProducts()
     {
-        return this.products;
+        return this.allProducts;
     }
 
     public void addToShoppingList(Product product)
     {
         shoppingList.addProduct(product);
 
+    }
+
+    public ArrayList<String> getStoreList()
+    {
+        return storeList;
     }
 
     public ShoppingList getShoppingList()
@@ -63,6 +124,27 @@ public class GogoBogo
 
     public void setUserAccount(UserAccount userAccount) {
         this.userAccount = userAccount;
+        this.shoppingList = userAccount.getShoppingList();
+    }
+
+
+    public void updateDealList()
+    {
+        DatabaseHelper dbh = new DatabaseHelper();
+
+        dbh.setOnProductListReceivedListener(new DatabaseHelper.OnProductListReceived() {
+            @Override
+            public void onRetrieval(ArrayList<Product> products) {
+                for (Product product : products)
+                {
+                    if(product.getProductId() == null)
+                        addProduct(product);
+
+                }
+            }
+        });
+
+        dbh.getAllProducts();
     }
 }
 

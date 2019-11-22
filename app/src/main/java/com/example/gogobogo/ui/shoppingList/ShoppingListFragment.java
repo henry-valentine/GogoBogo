@@ -18,6 +18,7 @@ import com.example.gogobogo.ShoppingList;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class ShoppingListFragment extends Fragment {
 
@@ -44,8 +45,8 @@ public class ShoppingListFragment extends Fragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState)
     {
         // Add all the GogoBogo Products to the homeLayout
-        ShoppingList shoppingList = MainActivity.activity.getGogoBogo().getShoppingList();
-        ArrayList<Product> products = shoppingList.getProducts();
+        ShoppingList shoppingList = MainActivity.getMainActivity().getGogoBogo().getShoppingList();
+        List<Product> products = shoppingList.getProducts();
 
         // Sort the ArrayList by Deal Rating
         Collections.sort(products);
@@ -60,6 +61,4 @@ public class ShoppingListFragment extends Fragment {
     {
         return this.shoppingListViewModel;
     }
-
-
 }

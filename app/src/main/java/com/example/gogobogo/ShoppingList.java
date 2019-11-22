@@ -14,18 +14,18 @@
 package com.example.gogobogo;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ShoppingList
 {
 
     /* Instance Variables */
-    private ArrayList<Product> m_products;
+    private List<Product> m_products;
 
     /* Constructors */
     public ShoppingList()
     {
         this.m_products = new ArrayList<>();
-
     }
 
     /* Methods */
@@ -45,13 +45,18 @@ public class ShoppingList
      */
     public void removeProduct(Product product)
     {
+        product.setVisible(false);
         this.m_products.remove(product);
     }
 
 
-    public ArrayList<Product> getProducts()
+    public List<Product> getProducts()
     {
         return m_products;
+    }
+    public void setProducts(List<Product> products)
+    {
+        this.m_products = products;
     }
 
 } // end class

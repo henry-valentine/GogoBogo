@@ -1,41 +1,24 @@
 package com.example.gogobogo;
 
-import android.Manifest;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.app.ActivityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 
 public class MainActivity extends AppCompatActivity
 {
@@ -43,14 +26,15 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void sendInput(ArrayList<GenericEditor.GERow> dialogData)
         {
-            if (!dialogData.get(0).getFieldString().isEmpty() && !dialogData.get(1).getFieldString().isEmpty() && dialogData.get(2).getFieldString().isEmpty() && dialogData.get(3).getFieldString().isEmpty())
+            if (!dialogData.get(0).getFieldString().isEmpty() && !dialogData.get(1).getFieldString().isEmpty() && !dialogData.get(2).getFieldString().isEmpty() && !dialogData.get(3).getFieldString().isEmpty()) {
                 gogoBogo.addProduct(new Product(
-                        "NONE?",
                         dialogData.get(0).getEditable().getText().toString(),
                         dialogData.get(1).getEditable().getText().toString(),
                         dialogData.get(2).getEditable().getText().toString(),
-                        Float.parseFloat(dialogData.get(3).getEditable().getText().toString())
+                        Float.parseFloat(dialogData.get(3).getEditable().getText().toString()
+                        )
                 ));
+            }
             else {
                 Log.e("PRODUCT ERROR", "Failed to init product due to empty input field...");
             }
@@ -58,16 +42,14 @@ public class MainActivity extends AppCompatActivity
     };
 
     private static MainActivity activity;
-
     private GogoBogo gogoBogo;
 
     private AppBarConfiguration mAppBarConfiguration;
 
 
     // TODO TESTING
-    FirebaseFirestore db;
+//    FirebaseFirestore db;
 
-    @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         // Generated Code //
@@ -83,15 +65,6 @@ public class MainActivity extends AppCompatActivity
         // Start login activity, which then waits for completion before returning to main
         transferToLoginActivity();
 
-        //give premissions //
-        if (checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE) == PackageManager.PERMISSION_GRANTED){
-            System.out.println("Permission Granted");
-            boolean v = true;
-        } else {
-            System.out.println("Permission Denied");
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1);
-            boolean v = false;
-        }
 
         // FAB ACTION //
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -119,52 +92,64 @@ public class MainActivity extends AppCompatActivity
         NavigationUI.setupWithNavController(navigationView, navController);
 
 
+//        DatabaseHelper dbh = new DatabaseHelper();
+//
+//        ArrayList<Product> products = new ArrayList<>();
+//
+//        products.add(new Product("My Name", "The Store", "Big Deal", 123));
+//        products.add(new Product("My Name 2", "The Store 2", "Big Deal 2", 123));
+//        products.add(new Product("My Name 3", "The Store 3", "Big Deal 3", 123));
+//
+//
+//
+//        dbh.addProduct(products);
+        //gogoBogo.updateDealList();
 
         // TODO : ALL BELOW IS TEST CODE
-        // Initialize the Database
-        db = FirebaseFirestore.getInstance();
-
-
-        // TODO: Temp. Created a test document
-
-        Map<String, Object> user = new HashMap<>();
-        user.put("first", "Rosemary");
-        user.put("last", "Morataya");
-        user.put("username", "saggy_boob");
-        user.put("password", "1234");
-        user.put("cart_number", 1237);
-
-        // Add a new document with a generated ID
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.w("TAG", "Error adding document", e);
-                    }
-                });
-
-        // Read from database
-        db.collection("users")
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Log.d("TAG", document.getId() + " => " + document.getData());
-                            }
-                        } else {
-                            Log.w("TAG", "Error getting documents.", task.getException());
-                        }
-                    }
-                });
+//        // Initialize the Database
+//        db = FirebaseFirestore.getInstance();
+//
+//
+//        // TODO: Temp. Created a test document
+//
+//        Map<String, Object> user = new HashMap<>();
+//        user.put("first", "Rosemary");
+//        user.put("last", "Morataya");
+//        user.put("username", "saggy_boob");
+//        user.put("password", "1234");
+//        user.put("cart_number", 1237);
+//
+//        // Add a new document with a generated ID
+//        db.collection("users")
+//                .add(user)
+//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+//                    @Override
+//                    public void onSuccess(DocumentReference documentReference) {
+//                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.w("TAG", "Error adding document", e);
+//                    }
+//                });
+//
+//        // Read from database
+//        db.collection("users")
+//                .get()
+//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                        if (task.isSuccessful()) {
+//                            for (QueryDocumentSnapshot document : task.getResult()) {
+//                                Log.d("TAG", document.getId() + " => " + document.getData());
+//                            }
+//                        } else {
+//                            Log.w("TAG", "Error getting documents.", task.getException());
+//                        }
+//                    }
+//                });
 
 
 
@@ -226,13 +211,7 @@ public class MainActivity extends AppCompatActivity
         this.gogoBogo = gogoBogo;
     }
 
-    public static MainActivity getMainActivity()
-    {
+    public static MainActivity getMainActivity() {
         return activity;
-    }
-
-    public static void setMainActivity(MainActivity mainActivity)
-    {
-        activity = mainActivity;
     }
 }
