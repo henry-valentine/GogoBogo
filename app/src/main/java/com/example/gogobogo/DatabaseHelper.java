@@ -101,8 +101,10 @@ public class DatabaseHelper
                         }
                     }
 
-                    else
-                        Log.println(Log.ASSERT, "INFO", "More than one? " +task.getResult().size());
+                    else {
+                        Log.println(Log.ASSERT, "INFO", "Number of Results: " + task.getResult().size());
+                        onUserAccountReceivedListener.onRetrieval(null);
+                    }
                 }
 
                 if (user != null)
@@ -120,7 +122,7 @@ public class DatabaseHelper
 
         m_tmpUser = new UserAccount(name, null);
 
-        m_database.collection(USER_DB_NAME).whereEqualTo("userName", name).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+        m_database.collection(USER_DB_NAME).whereEqualTo("username", name).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 UserAccount user = null;

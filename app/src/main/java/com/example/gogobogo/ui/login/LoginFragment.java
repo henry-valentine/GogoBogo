@@ -1,23 +1,29 @@
 package com.example.gogobogo.ui.login;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.gogobogo.DatabaseHelper;
 import com.example.gogobogo.GenericEditor;
 import com.example.gogobogo.R;
 import com.example.gogobogo.UserAccount;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 
@@ -44,7 +50,7 @@ public class LoginFragment extends Fragment
             String pass = dialogData.get(2).getEditable().getText().toString();
 
             // Instantiate database helper, setup the temporary user...
-            dbh = new DatabaseHelper(); // TODO: VERIFY THAT THIS DOES NOT BREAK IF LISTENER IS OVERWRITTEN!
+            dbh = new DatabaseHelper();
 
             m_tmpUser = new UserAccount(name, pass);
 
@@ -62,7 +68,7 @@ public class LoginFragment extends Fragment
                     }
 
                     else
-                        Toast.makeText(getContext(), "Sorry, user credentials already exist.", Toast.LENGTH_SHORT);
+                        displayTopMessage("Sorry, user by that name already exists. Please try again.");
                 }
             });
 
@@ -134,6 +140,7 @@ public class LoginFragment extends Fragment
 
     private void attemptLogin(UserAccount user)
     {
+        Log.println(Log.ASSERT, "INFO", "Attempting login...");
         if (user != null)
         {
             userAccount = user;
@@ -143,13 +150,14 @@ public class LoginFragment extends Fragment
 
         else
         {
-            Toast.makeText(getActivity(), "Sorry, invalid credentials.", Toast.LENGTH_SHORT).show();
+            displayTopMessage("Sorry, invalid credentials, please try again.");
         }
     }
 
     private void retrieveUserFromDB()
     {
         // Use this to validate user credentials within the text fields
+        Log.println(Log.ASSERT, "INFO", "Retrieving...");
 
         String username = this.username.getText().toString();
         String password = this.password.getText().toString();
@@ -161,6 +169,7 @@ public class LoginFragment extends Fragment
             dbh.setOnUserAccountReceivedListener(new DatabaseHelper.OnUserAccountReceived() {
                 @Override
                 public void onRetrieval(UserAccount user) {
+                    Log.println(Log.ASSERT, "INFO", "Attempting attempt...");
                     attemptLogin(user);
                 }
             });
@@ -172,6 +181,7 @@ public class LoginFragment extends Fragment
             attemptLogin(null);
     }
 
+
     private void buildRegistrationWindow()
     {
         ArrayList<GenericEditor.GERow> rows = new ArrayList<>();
@@ -182,6 +192,18 @@ public class LoginFragment extends Fragment
         GenericEditor registrationWindow = new GenericEditor("Register", rows);
         registrationWindow.setOnInputListener(registerListener);
         registrationWindow.show(getFragmentManager(), "REGISTRATION_EDITOR");
+    }
+
+    public void displayTopMessage(String message)
+    {
+        Log.println(Log.ASSERT, "INFO", "Message sent");
+        LinearLayout loginLayout = mView.findViewById(R.id.login_window_layout);
+        Snackbar snack = Snackbar.make(loginLayout, message, Snackbar.LENGTH_LONG);
+        View tmpView = snack.getView();
+        FrameLayout.LayoutParams params = (FrameLayout.LayoutParams) tmpView.getLayoutParams();
+        params.gravity = Gravity.TOP;
+        tmpView.setLayoutParams(params);
+        snack.show();
     }
 
     public interface OnLoginListener
