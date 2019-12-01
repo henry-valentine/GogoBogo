@@ -38,6 +38,7 @@ public class Product implements Comparable<Product>
     private int          m_upvotes;
     private int          m_downvotes;
     private float        m_price;
+    private Vote         m_vote;
 
 
     private DatabaseHelper dbh = new DatabaseHelper();
@@ -75,6 +76,7 @@ public class Product implements Comparable<Product>
         this.m_price        = price;
         this.m_upvotes      = 0;
         this.m_downvotes    = 0;
+        this.m_vote         = Vote.NONE;
 
         // Generate Product Id
         this.m_productId = null;
@@ -130,12 +132,17 @@ public class Product implements Comparable<Product>
             public void onClick(View v)
             {
                 if(layout_id == R.id.homeLayout) {
-                    Log.i("INFO", "Adding" + m_name + "to Cart");
-                    Snackbar.make(v, "Adding " + m_name + " to Shopping List", Snackbar.LENGTH_LONG)
-                            .setAction("Action", null).show();
-
-                    // Add Product to Shopping List
-                    addToShoppingList();
+                    if (addToShoppingList()) {
+                        Log.i("TAG", "Adding" + m_name + "to Cart");
+                        Snackbar.make(v, "Adding " + m_name + " to Shopping List", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+                    else
+                    {
+                        Log.i("TAG", m_name + "is already in the cart");
+                        Snackbar.make(v, m_name + " is already in your cart!", Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
                 }
                 else
                 {
@@ -181,23 +188,36 @@ public class Product implements Comparable<Product>
         downButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                m_downvotes++;
+                if (m_vote != Vote.DOWNVOTE) {
+                    if (m_vote == Vote.UPVOTE) // From upvote to downvote
+                        m_downvotes += 2;
+                    else
+                        m_downvotes++;
 
-                // Update the deal rating
-                m_dealRating_tv.setText("\n" + getDealRating());
+                    m_vote = Vote.DOWNVOTE;                          // TODO: COMMENT OUT FOR DEMO
 
-                Log.i("INFO", "DOWNVOTE RECEIVED");
-                Snackbar.make(v, ("Downvotes Received: " + m_downvotes), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                    // Update the deal rating
+                    m_dealRating_tv.setText("\n" + getDealRating());
 
-                if(removeIfNeeded())
+                    Log.i("TAG", "DOWNVOTE RECEIVED");
+                    Snackbar.make(v, ("Downvotes Received: " + m_downvotes), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
+                    if (removeIfNeeded()) {
+                        Log.i("TAG", "Removed Product: " + m_name);
+                        Snackbar.make(v, ("Removing Product: " + m_name), Snackbar.LENGTH_LONG)
+                                .setAction("Action", null).show();
+                    }
+
+                    updateGGBG();
+                }
+                else
                 {
-                    Log.i("INFO", "Removed Product: " + m_name);
-                    Snackbar.make(v, ("Removing Product: " + m_name), Snackbar.LENGTH_LONG)
+                    Log.i("TAG", "Product already downvoated");
+                    Snackbar.make(v, ("You already downvoted this product!"), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
-                updateGGBG();
             }
         });
 
@@ -219,16 +239,29 @@ public class Product implements Comparable<Product>
         upButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v)
             {
-                m_upvotes++;
+                if (m_vote != Vote.UPVOTE) {
+                    if (m_vote == Vote.DOWNVOTE)
+                        m_upvotes += 2;      // From downvote to upvote
+                    else
+                        m_upvotes++;
 
-                // Update the deal rating
-                m_dealRating_tv.setText("\n" + getDealRating());
+                    m_vote = Vote.UPVOTE;                           // TODO: COMMENT OUT FOR DEMO
 
-                Log.i("INFO", "UPVOTE RECEIVED");
-                Snackbar.make(v, ("Upvotes Received: " + m_upvotes), Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                    // Update the deal rating
+                    m_dealRating_tv.setText("\n" + getDealRating());
 
-                updateGGBG();
+                    Log.i("INFO", "UPVOTE RECEIVED");
+                    Snackbar.make(v, ("Upvotes Received: " + m_upvotes), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
+                    updateGGBG();
+                }
+                else
+                {
+                    Log.i("TAG", "Product already downvoated");
+                    Snackbar.make(v, ("You already upvoated this product!"), Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
             }
         });
 
@@ -268,10 +301,19 @@ public class Product implements Comparable<Product>
         return product.getDealRating() - this.getDealRating();
     }
 
-    private void addToShoppingList()
+    private boolean addToShoppingList()
     {
-        MainActivity.getMainActivity().getGogoBogo().addToShoppingList(this);
-        dbh.updateUser();
+        GogoBogo gb =  MainActivity.getMainActivity().getGogoBogo();
+        if (gb.itemInShoppingList(this))
+        {
+            return false;
+        }
+        else
+        {
+            gb.addToShoppingList(this);
+            dbh.updateUser();
+            return true;
+        }
     }
 
     private void removeFromShoppingList()
@@ -395,3 +437,8 @@ public class Product implements Comparable<Product>
         }
     }
 } // end class
+
+enum Vote
+{
+    UPVOTE, DOWNVOTE, NONE;
+}

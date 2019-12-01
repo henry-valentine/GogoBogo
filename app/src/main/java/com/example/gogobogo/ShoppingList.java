@@ -49,6 +49,11 @@ public class ShoppingList
         this.m_products.remove(product);
     }
 
+    public boolean contains(Product product)
+    {
+        return m_products.contains(product);
+    }
+
 
     public ArrayList<Product> getProducts()
     {
