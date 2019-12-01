@@ -54,9 +54,7 @@ public class HomeFragment extends Fragment
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-
-                // Call a gogoBogo method here?
-
+                MainActivity.getMainActivity().getGogoBogo().filterByQuery(query);
                 return false;
             }
 

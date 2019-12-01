@@ -22,7 +22,7 @@ import java.util.ArrayList;
 public class GogoBogo
 {
     /* Instance Variables */
-    private ArrayList<Product> allProducts;           // Products on the home page
+    private ArrayList<Product> allProducts;         // Products on the home page
     private ShoppingList        shoppingList;       // Shopping List for the User
     private ArrayList<String>   storeList;          // List of Stores
 
@@ -34,16 +34,7 @@ public class GogoBogo
     {
         this.allProducts = new ArrayList<>();
         this.shoppingList = new ShoppingList();
-
         this.storeList = new ArrayList<>();
-
-        // TODO : Populate from Database instead of Hardcoding
-        ////////////////////////////////////////////////////////
-        storeList.add("Walmart");
-        storeList.add("Publix");
-        storeList.add("Aldi");
-        storeList.add("NM Walmart");
-        ////////////////////////////////////////////////////////
     }
 
     /**
@@ -65,7 +56,30 @@ public class GogoBogo
                 product.setVisible(true);
             }
         }
+    }
 
+    /**
+     * Filter displayed products by a search query
+     * @param query : The search query
+     */
+    public void filterByQuery(String query)
+    {
+        for (Product product : allProducts)
+        {
+            // Make it case insensitive
+            String lc_name  = product.getName().toLowerCase();
+            String lc_query = query.toLowerCase();
+
+            // Filter by query
+            if (!lc_name.contains(lc_query))
+            {
+                product.setVisible(false);
+            }
+            else
+            {
+                product.setVisible(true);
+            }
+        }
     }
 
     public void addProduct(Product product) {
@@ -96,8 +110,6 @@ public class GogoBogo
         dbh.removeProduct(product.getProductId(), deleteListener);
     }
 
-
-
     public ArrayList<Product> getAllProducts()
     {
         return this.allProducts;
@@ -116,11 +128,26 @@ public class GogoBogo
     public void addToShoppingList(Product product)
     {
         shoppingList.addProduct(product);
+    }
 
+    public boolean itemInShoppingList(Product product)
+    {
+        return shoppingList.contains(product);
     }
 
     public ArrayList<String> getStoreList()
     {
+        // Update the StoreList
+        String storeName;
+        for (Product product : allProducts)
+        {
+            storeName = product.getStore();
+
+            if (!this.storeList.contains(storeName))
+            {
+                storeList.add(storeName);
+            }
+        }
         return storeList;
     }
 
