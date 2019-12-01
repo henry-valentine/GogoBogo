@@ -28,6 +28,8 @@ public class LoginActivity extends FragmentActivity
             @Override
             public void onLogin(UserAccount userAccount) {
                 gogoBogo.setUserAccount(userAccount);
+                gogoBogo.updateProductReferences();
+
                 finish();
             }
         });

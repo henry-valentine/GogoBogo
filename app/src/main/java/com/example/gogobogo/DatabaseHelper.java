@@ -14,9 +14,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class DatabaseHelper
 {
@@ -76,40 +74,33 @@ public class DatabaseHelper
                 UserAccount user = null;
 
                 if (task.isSuccessful()) {
-                    Log.println(Log.ASSERT, "INFO", "Task successful " + m_tmpUser.getUsername() + " " + m_tmpUser.getPassword());
 
                     if (task.getResult().size() == 1) {
-                        Log.println(Log.ASSERT, "INFO", "Single result found");
 
                         for (QueryDocumentSnapshot document : task.getResult()) {
-                            Log.println(Log.ASSERT, "INFO", "Found user");
+                            Log.println(Log.ASSERT, "LOGIN INFO", "Found user");
                             user = document.toObject(UserAccount.class);
 
 
                             if (user.getPassword().equals(m_tmpUser.getPassword()))          // Valid password
                             {
-                                Log.println(Log.ASSERT, "INFO", "Valid Credentials");
+                                Log.println(Log.ASSERT, "LOGIN INFO", "Valid Credentials");
                                 user.setUserID(document.getId());
                                 onUserAccountReceivedListener.onRetrieval(user);
                             }
 
                             else                                                            // Invalid password
                             {
-                                Log.println(Log.ASSERT, "INFO", "Invalid Credentials " + m_tmpUser.getPassword() + " and got " + user.getPassword());
+                                Log.println(Log.ASSERT, "LOGIN INFO", "Invalid Credentials " + m_tmpUser.getPassword() + " and got " + user.getPassword());
                                 onUserAccountReceivedListener.onRetrieval(null);
                             }
                         }
                     }
 
                     else {
-                        Log.println(Log.ASSERT, "INFO", "Number of Results: " + task.getResult().size());
+                        Log.println(Log.ASSERT, "LOGIN INFO", "FAILED TO FIND USER? Number of users found by given name (" + m_tmpUser.getUsername() + "): " + task.getResult().size());
                         onUserAccountReceivedListener.onRetrieval(null);
                     }
-                }
-
-                if (user != null)
-                {
-                    Log.println(Log.ASSERT, "INFO", "Current Object Name: " + user.getUsername());
                 }
             }
         });
@@ -146,6 +137,11 @@ public class DatabaseHelper
         });
     }
 
+    public void updateProduct(Product product)
+    {
+        m_database.collection(PRODUCT_DB_NAME).document(product.getProductId()).set(product);
+    }
+
     public void addProduct(Product product)
     {
         DocumentReference doc = m_database.collection(PRODUCT_DB_NAME).document();
@@ -170,27 +166,11 @@ public class DatabaseHelper
         }
     }
 
-    public Product getProduct(int id)
+    public Product getProduct(String id)
     {
         Product result = null;
 
-
-
-        return result;
-    }
-
-    public ArrayList<Product> getProductsByName(String name)
-    {
-        // TODO
-        ArrayList<Product> result = null;
-
-        return result;
-    }
-
-    public ArrayList<Product> getProductByStore(String name)
-    {
-        // TODO
-        ArrayList<Product> result = null;
+        m_database.collection(PRODUCT_DB_NAME).document(id);
 
         return result;
     }
@@ -230,21 +210,6 @@ public class DatabaseHelper
                 }
             }
         });
-    }
-
-    public String generateID() //TODO. Maybe change the logic so that the products and users will be different Id's although it doesnt big matter
-    {
-        // Get the current time
-        SimpleDateFormat date = new SimpleDateFormat("yyyy-MM-dd-hh-mm-ss");
-
-        // Generate a random int between 0 and 100
-        int rand = (int) (Math.random() * 100);
-
-        String id = date.format(new Date()) + "-" + rand;
-
-        Log.d("DEBUG", "Generated new ID: " + id);
-
-        return id;
     }
 
     public interface OnUserAccountReceived

@@ -13,7 +13,6 @@
 
 package com.example.gogobogo;
 
-
 import com.google.android.gms.tasks.OnSuccessListener;
 
 import java.util.ArrayList;
@@ -137,6 +136,27 @@ public class GogoBogo
         this.shoppingList = userAccount.getShoppingList();
     }
 
+    public void updateProductReferences()
+    {
+        int i;
+
+        Product userP;
+        ArrayList<Product> shoppingList = userAccount.getShoppingList().getProducts();
+
+
+        for (Product homeP : allProducts)
+        {
+            for (i = 0; i < shoppingList.size(); i++)
+            {
+                userP = shoppingList.get(i);
+
+                if (userP.getProductId() != null && homeP.getProductId().equals(userP.getProductId()))
+                {
+                    userAccount.getShoppingList().getProducts().set(i, homeP);
+                }
+            }
+        }
+    }
 
 
 }

@@ -4,10 +4,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -46,6 +50,8 @@ public class MainActivity extends AppCompatActivity
 
     private AppBarConfiguration mAppBarConfiguration;
 
+    private Button logoutButton;
+
 
     // TODO TESTING
 //    FirebaseFirestore db;
@@ -74,7 +80,6 @@ public class MainActivity extends AppCompatActivity
 
         dbh.getAllProducts();
 
-
         // FAB ACTION //
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -93,75 +98,12 @@ public class MainActivity extends AppCompatActivity
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_shopping_list, R.id.nav_maps)
+                R.id.nav_home, R.id.nav_shopping_list)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
-//        DatabaseHelper dbh = new DatabaseHelper();
-//
-//        ArrayList<Product> products = new ArrayList<>();
-//
-//        products.add(new Product("My Name", "The Store", "Big Deal", 123));
-//        products.add(new Product("My Name 2", "The Store 2", "Big Deal 2", 123));
-//        products.add(new Product("My Name 3", "The Store 3", "Big Deal 3", 123));
-//
-//
-//
-//        dbh.addProduct(products);
-        //gogoBogo.updateDealList();
-
-        // TODO : ALL BELOW IS TEST CODE
-//        // Initialize the Database
-//        db = FirebaseFirestore.getInstance();
-//
-//
-//        // TODO: Temp. Created a test document
-//
-//        Map<String, Object> user = new HashMap<>();
-//        user.put("first", "Rosemary");
-//        user.put("last", "Morataya");
-//        user.put("username", "saggy_boob");
-//        user.put("password", "1234");
-//        user.put("cart_number", 1237);
-//
-//        // Add a new document with a generated ID
-//        db.collection("users")
-//                .add(user)
-//                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-//                    @Override
-//                    public void onSuccess(DocumentReference documentReference) {
-//                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
-//                    }
-//                })
-//                .addOnFailureListener(new OnFailureListener() {
-//                    @Override
-//                    public void onFailure(@NonNull Exception e) {
-//                        Log.w("TAG", "Error adding document", e);
-//                    }
-//                });
-//
-//        // Read from database
-//        db.collection("users")
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d("TAG", document.getId() + " => " + document.getData());
-//                            }
-//                        } else {
-//                            Log.w("TAG", "Error getting documents.", task.getException());
-//                        }
-//                    }
-//                });
-
-
-
     }
 
     public void transferToLoginActivity()
@@ -184,13 +126,6 @@ public class MainActivity extends AppCompatActivity
         pEditor.setOnInputListener(productEditorListener);
 
         pEditor.show(getSupportFragmentManager(), "ProductEditor");
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
     }
 
     @Override

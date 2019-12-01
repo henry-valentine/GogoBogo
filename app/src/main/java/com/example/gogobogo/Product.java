@@ -97,8 +97,6 @@ public class Product implements Comparable<Product>
         // Layout to Add This Product To
         LinearLayout lm = MainActivity.getMainActivity().findViewById(layout_id);
 
-        Log.println(Log.ASSERT, "INFO", "LM: " + lm);
-
         // Set the Layout parameters
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams
                 (ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
@@ -132,7 +130,7 @@ public class Product implements Comparable<Product>
             public void onClick(View v)
             {
                 if(layout_id == R.id.homeLayout) {
-                    Log.i("TAG", "Adding" + m_name + "to Cart");
+                    Log.i("INFO", "Adding" + m_name + "to Cart");
                     Snackbar.make(v, "Adding " + m_name + " to Shopping List", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
@@ -141,7 +139,7 @@ public class Product implements Comparable<Product>
                 }
                 else
                 {
-                    Log.i("TAG", "Removing" + m_name + "from Cart");
+                    Log.i("INFO", "Removing" + m_name + "from Cart");
                     Snackbar.make(v, "Removing " + m_name + " from Shopping List", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
@@ -188,18 +186,18 @@ public class Product implements Comparable<Product>
                 // Update the deal rating
                 m_dealRating_tv.setText("\n" + getDealRating());
 
-                Log.i("TAG", "DOWNVOTE RECEIVED");
+                Log.i("INFO", "DOWNVOTE RECEIVED");
                 Snackbar.make(v, ("Downvotes Received: " + m_downvotes), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
                 if(removeIfNeeded())
                 {
-                    Log.i("TAG", "Removed Product: " + m_name);
+                    Log.i("INFO", "Removed Product: " + m_name);
                     Snackbar.make(v, ("Removing Product: " + m_name), Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
                 }
 
-                dbh.updateUser();
+                updateGGBG();
             }
         });
 
@@ -226,11 +224,11 @@ public class Product implements Comparable<Product>
                 // Update the deal rating
                 m_dealRating_tv.setText("\n" + getDealRating());
 
-                Log.i("TAG", "UPVOTE RECEIVED");
+                Log.i("INFO", "UPVOTE RECEIVED");
                 Snackbar.make(v, ("Upvotes Received: " + m_upvotes), Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                dbh.updateUser();
+                updateGGBG();
             }
         });
 
@@ -242,6 +240,12 @@ public class Product implements Comparable<Product>
 
 
     } // end addToLayout
+
+    public void updateGGBG()
+    {
+        dbh.updateUser();
+        dbh.updateProduct(this);
+    }
 
     /**
      * Set visibility of a product

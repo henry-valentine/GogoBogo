@@ -20,7 +20,7 @@ public class ShoppingList
 {
 
     /* Instance Variables */
-    private List<Product> m_products;
+    private ArrayList<Product> m_products;
 
     /* Constructors */
     public ShoppingList()
@@ -50,11 +50,11 @@ public class ShoppingList
     }
 
 
-    public List<Product> getProducts()
+    public ArrayList<Product> getProducts()
     {
         return m_products;
     }
-    public void setProducts(List<Product> products)
+    public void setProducts(ArrayList<Product> products)
     {
         this.m_products = products;
     }

@@ -140,7 +140,6 @@ public class LoginFragment extends Fragment
 
     private void attemptLogin(UserAccount user)
     {
-        Log.println(Log.ASSERT, "INFO", "Attempting login...");
         if (user != null)
         {
             userAccount = user;
@@ -157,7 +156,6 @@ public class LoginFragment extends Fragment
     private void retrieveUserFromDB()
     {
         // Use this to validate user credentials within the text fields
-        Log.println(Log.ASSERT, "INFO", "Retrieving...");
 
         String username = this.username.getText().toString();
         String password = this.password.getText().toString();
@@ -169,7 +167,6 @@ public class LoginFragment extends Fragment
             dbh.setOnUserAccountReceivedListener(new DatabaseHelper.OnUserAccountReceived() {
                 @Override
                 public void onRetrieval(UserAccount user) {
-                    Log.println(Log.ASSERT, "INFO", "Attempting attempt...");
                     attemptLogin(user);
                 }
             });
@@ -196,7 +193,6 @@ public class LoginFragment extends Fragment
 
     public void displayTopMessage(String message)
     {
-        Log.println(Log.ASSERT, "INFO", "Message sent");
         LinearLayout loginLayout = mView.findViewById(R.id.login_window_layout);
         Snackbar snack = Snackbar.make(loginLayout, message, Snackbar.LENGTH_LONG);
         View tmpView = snack.getView();
